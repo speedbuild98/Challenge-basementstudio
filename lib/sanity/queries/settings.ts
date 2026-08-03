@@ -24,14 +24,16 @@ export const homePageQuery = defineQuery(`
     title,
     eyebrow,
     intro,
+    knowledgeTitle,
     featuredPosts[]->{
       _id,
       title,
       "slug": slug.current,
       excerpt,
       publishedAt,
+      isFeatured,
       coverImage { ..., alt },
-      "categories": categories[]->{ title, "slug": slug.current }
+      "categories": categories[]->{ _id, title, "slug": slug.current }
     }
   }
 `);

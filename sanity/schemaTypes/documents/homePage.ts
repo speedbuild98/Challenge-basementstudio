@@ -23,6 +23,12 @@ export const homePage = defineType({
       rows: 3,
     }),
     defineField({
+      name: "knowledgeTitle",
+      title: "Knowledge section title",
+      type: "string",
+      initialValue: "Knowledge Is Meant to Be Shared",
+    }),
+    defineField({
       name: "featuredPosts",
       title: "Featured posts",
       type: "array",

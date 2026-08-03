@@ -1,27 +1,47 @@
-import { Container } from "@/components/layout/Container";
+import type { Metadata } from "next";
 
-export default function HomePage() {
+import { HomeHero } from "@/components/sections/HomeHero";
+import { KnowledgeGrid } from "@/components/sections/KnowledgeGrid";
+import { getHomePageData } from "@/lib/content/home";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { home, settings } = await getHomePageData();
+
+  return {
+    title: settings?.title || "basement. Journal",
+    description:
+      settings?.description ||
+      home.intro ||
+      "Research, insights, and the science behind building brands & websites.",
+  };
+}
+
+export default async function HomePage() {
+  const { home, posts, categories, usingDemoContent } = await getHomePageData();
+
+  const featured =
+    posts.find((post) => post.isFeatured) || posts[0] || null;
+  const gridPosts = posts.filter((post) => post._id !== featured?._id);
+
   return (
-    <Container className="py-[var(--space-8)]">
-      <p className="text-[var(--text-meta)] tracking-[var(--tracking-meta)] text-[var(--color-muted)] uppercase">
-        Phase 3 scaffold
-      </p>
-      <h1
-        className="mt-3 max-w-3xl font-semibold tracking-[var(--tracking-display)]"
-        style={{ fontSize: "var(--text-display)", lineHeight: "var(--leading-display)" }}
-      >
-        Editorial
-      </h1>
-      <p className="text-muted mt-4 max-w-xl">
-        Architecture and tooling are in place. Homepage fidelity lands after
-        Figma intake and Sanity project connection.
-      </p>
-      <ul className="mt-8 list-disc space-y-2 pl-5 text-sm">
-        <li>Next.js App Router + TypeScript + Tailwind v4</li>
-        <li>Sanity schemas + embedded Studio at /studio</li>
-        <li>Design tokens in styles/tokens.css</li>
-        <li>Motion installed (client islands only)</li>
-      </ul>
-    </Container>
+    <>
+      {usingDemoContent ? (
+        <p className="sr-only">
+          Showing design-aligned demo content until Sanity posts are published.
+        </p>
+      ) : null}
+      <HomeHero
+        title={
+          home.title ||
+          "Research, insights, and the science behind building brands & websites."
+        }
+        featured={featured}
+      />
+      <KnowledgeGrid
+        title={home.knowledgeTitle || "Knowledge Is Meant to Be Shared"}
+        posts={gridPosts.length ? gridPosts : posts}
+        categories={categories}
+      />
+    </>
   );
 }

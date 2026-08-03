@@ -1,0 +1,61 @@
+import Link from "next/link";
+
+import { cn } from "@/lib/utils/cn";
+import type { CategoryRef } from "@/types/content";
+
+type FilterBarProps = {
+  categories: CategoryRef[];
+  activeSlug?: string | null;
+  className?: string;
+};
+
+export function FilterBar({
+  categories,
+  activeSlug = null,
+  className,
+}: FilterBarProps) {
+  return (
+    <nav aria-label="Filter posts by category" className={className}>
+      <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+        <li>
+          <FilterLink href="/" active={!activeSlug}>
+            All posts
+          </FilterLink>
+        </li>
+        {categories.map((category) => (
+          <li key={category._id}>
+            <FilterLink
+              href={`/category/${category.slug}`}
+              active={activeSlug === category.slug}
+            >
+              {category.title}
+            </FilterLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
+function FilterLink({
+  href,
+  active,
+  children,
+}: {
+  href: string;
+  active: boolean;
+  children: string;
+}) {
+  return (
+    <Link
+      href={href}
+      aria-current={active ? "page" : undefined}
+      className={cn(
+        "font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] transition-colors duration-[var(--duration-fast)]",
+        active ? "text-orange" : "text-black hover:text-orange",
+      )}
+    >
+      {children}
+    </Link>
+  );
+}
