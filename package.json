@@ -11,7 +11,8 @@
     "format:check": "prettier --check .",
     "sanity:extract": "sanity schema extract --path=./schema.json",
     "sanity:typegen": "sanity typegen generate",
-    "typegen": "npm run sanity:extract && npm run sanity:typegen"
+    "typegen": "npm run sanity:extract && npm run sanity:typegen",
+    "seed:basement": "node --env-file=.env.local scripts/seed-from-basement.mjs"
   },
   "dependencies": {
     "@portabletext/react": "^7.0.1",
