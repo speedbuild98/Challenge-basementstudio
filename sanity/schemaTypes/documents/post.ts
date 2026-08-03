@@ -23,7 +23,16 @@ export const post = defineType({
       title: "Excerpt",
       type: "text",
       rows: 3,
-      validation: (rule) => rule.max(240),
+      description: "Short supporting paragraph shown in the article header.",
+      validation: (rule) => rule.max(420),
+    }),
+    defineField({
+      name: "intro",
+      title: "Intro",
+      type: "text",
+      rows: 3,
+      description: "Larger intro line next to the title on the article page.",
+      validation: (rule) => rule.max(280),
     }),
     defineField({
       name: "coverImage",

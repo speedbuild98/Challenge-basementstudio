@@ -15,6 +15,7 @@ export const postCardFields = /* groq */ `
     _id,
     name,
     "slug": slug.current,
+    bio,
     avatar
   },
   "categories": categories[]->{
@@ -38,6 +39,7 @@ export const postsQuery = defineQuery(`
 export const postBySlugQuery = defineQuery(`
   *[_type == "post" && slug.current == $slug][0] {
     ${postCardFields},
+    intro,
     body,
     seo
   }

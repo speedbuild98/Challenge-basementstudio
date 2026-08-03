@@ -61,6 +61,7 @@ export const demoPosts: PostCard[] = [
     title: "GSAP & Next.js Setup: The BSMNT Way",
     slug: "gsap-nextjs-setup-bsmnt-way",
     publishedAt: "2025-01-03",
+    coverUrl: "/demo/post-ship.jpg",
     categories: [demoCategories[2], demoCategories[0]],
   },
   {
@@ -68,6 +69,7 @@ export const demoPosts: PostCard[] = [
     title: "Navigating the Future Within the Next.js App Router",
     slug: "navigating-future-nextjs-app-router",
     publishedAt: "2025-05-23",
+    coverUrl: "/demo/featured-daylight.jpg",
     categories: [demoCategories[1], demoCategories[0]],
   },
   {
@@ -75,6 +77,7 @@ export const demoPosts: PostCard[] = [
     title: "KidSuper World: Bringing Paints to Life With R3F",
     slug: "kidsuper-world-r3f",
     publishedAt: "2025-12-31",
+    coverUrl: "/demo/article-inline.jpg",
     categories: [demoCategories[2], demoCategories[0]],
   },
 ];

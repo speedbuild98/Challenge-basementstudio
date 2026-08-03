@@ -1,0 +1,92 @@
+import Link from "next/link";
+
+import { PostImage } from "@/components/blog/PostImage";
+import { CategoryPill } from "@/components/ui/CategoryPill";
+import { Text } from "@/components/ui/Text";
+import { formatPostDate } from "@/lib/utils/format-date";
+import type { PostDetail } from "@/types/content";
+
+type ArticleHeaderProps = {
+  post: PostDetail;
+};
+
+export function ArticleHeader({ post }: ArticleHeaderProps) {
+  const authors =
+    post.authors?.map((author) => author.name).filter(Boolean).join(", ") ||
+    null;
+
+  return (
+    <header className="pt-6 md:pt-10">
+      <Link
+        href="/"
+        className="inline-flex font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:text-orange"
+      >
+        ← Go back
+      </Link>
+      <div className="mt-2 border-t border-white/15" />
+
+      <div className="mt-10 flex flex-col gap-10 lg:mt-14 lg:flex-row lg:items-start lg:justify-between">
+        <Text
+          as="h1"
+          variant="h1"
+          className="max-w-[12ch] text-balance text-white lg:max-w-[304px]"
+        >
+          {post.title}
+        </Text>
+
+        <div className="flex max-w-[553px] flex-col gap-6">
+          {post.intro ? (
+            <Text
+              variant="h2"
+              className="font-normal tracking-[var(--tracking-h2)] text-white"
+            >
+              {post.intro}
+            </Text>
+          ) : null}
+          {post.excerpt ? (
+            <Text variant="body" className="text-white">
+              {post.excerpt}
+            </Text>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:pl-[min(50%,503px)]">
+        <div className="flex flex-wrap items-center gap-2">
+          <Text as="time" variant="caption" className="text-white">
+            {formatPostDate(post.publishedAt)}
+          </Text>
+          {authors ? (
+            <>
+              <span className="size-1 bg-grey" aria-hidden />
+              <Text variant="caption" className="text-white">
+                {authors}
+              </Text>
+            </>
+          ) : null}
+        </div>
+        {post.categories?.length ? (
+          <ul className="flex flex-wrap gap-1">
+            {post.categories.map((category) => (
+              <li key={category._id}>
+                <CategoryPill label={category.title} tone="dark" className="text-white" />
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </div>
+
+      <div className="relative mt-8 aspect-[1372/472] w-full overflow-hidden border border-white/20">
+        <PostImage
+          post={post}
+          priority
+          sizes="(max-width: 1200px) 100vw, 1372px"
+        />
+        <span className="absolute left-0 top-0 size-px bg-white" aria-hidden />
+        <span className="absolute right-0 top-0 size-px bg-white" aria-hidden />
+        <span className="absolute bottom-0 left-0 size-px bg-white" aria-hidden />
+        <span className="absolute bottom-0 right-0 size-px bg-white" aria-hidden />
+      </div>
+    </header>
+  );
+}

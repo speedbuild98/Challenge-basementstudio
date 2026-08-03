@@ -1,7 +1,16 @@
+import type { PortableTextBlock } from "@portabletext/types";
+
 export type CategoryRef = {
   _id: string;
   title: string;
   slug: string;
+};
+
+export type AuthorRef = {
+  _id: string;
+  name: string;
+  slug?: string | null;
+  role?: string | null;
 };
 
 export type PostCard = {
@@ -19,6 +28,16 @@ export type PostCard = {
   /** Local/demo image path when Sanity asset is absent */
   coverUrl?: string | null;
   categories?: CategoryRef[] | null;
+  authors?: AuthorRef[] | null;
+};
+
+export type PostDetail = PostCard & {
+  intro?: string | null;
+  body?: PortableTextBlock[] | null;
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+  } | null;
 };
 
 export type NavItem = {

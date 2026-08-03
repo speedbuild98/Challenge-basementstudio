@@ -16,7 +16,7 @@ export function CategoryPill({
       className={cn(
         "inline-flex items-center px-0.5 font-semibold [font-size:var(--text-caption)] [line-height:var(--leading-caption)]",
         tone === "light" && "bg-white text-light-grey",
-        tone === "dark" && "bg-dark-grey text-light-grey",
+        tone === "dark" && "bg-dark-grey text-white",
         className,
       )}
     >
