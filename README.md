@@ -1,12 +1,22 @@
-# Editorial
+# Editorial — Basement Studio Frontend Dev Challenge 2026
 
-Production-quality editorial blog — Next.js, TypeScript, Tailwind CSS, Motion, Sanity, Vercel.
+Production-quality editorial blog built for the [Basement Studio Frontend Dev Challenge](https://basementstudio.notion.site/Frontend-Dev-Challenge-da2967c579374fb4969e475dc15fb552).
+
+## Challenge references
+
+| Resource | Link |
+|---|---|
+| Brief (Notion) | [Frontend Dev Challenge](https://basementstudio.notion.site/Frontend-Dev-Challenge-da2967c579374fb4969e475dc15fb552) |
+| Design (Figma) | [Dev Challenge 2026](https://www.figma.com/design/08IEpisAbbDCHJhd1VIajs/Dev-Challenge-2026?node-id=0-1&p=f&t=W6ryT238yZcsMxY5-0) |
+| Repository | [speedbuild98/Challenge-basementstudio](https://github.com/speedbuild98/Challenge-basementstudio) |
+| Deployment | [challenge-basementstudio.vercel.app](https://challenge-basementstudio.vercel.app) |
+| CMS (Sanity Studio) | [/studio](https://challenge-basementstudio.vercel.app/studio) |
 
 ## Status
 
-- Phase 1: architecture decided
-- Phase 3: bootstrap + folder architecture + Sanity schemas scaffolded
-- Next: connect real Sanity project → Figma tokens → homepage fidelity
+- Architecture and Next.js/Sanity scaffold are in place
+- Site is deployed to Vercel
+- Next: connect a real Sanity project, extract Figma tokens, implement homepage + article fidelity
 
 ## Stack
 
@@ -15,7 +25,7 @@ Production-quality editorial blog — Next.js, TypeScript, Tailwind CSS, Motion,
 - Tailwind CSS v4 + CSS design tokens
 - Motion (client islands only)
 - Sanity CMS + embedded Studio at `/studio`
-- Vercel (deploy target)
+- Vercel
 
 ## Local setup (~5 min)
 
@@ -42,7 +52,10 @@ npm run dev
 - Site: [http://localhost:3000](http://localhost:3000)
 - Studio: [http://localhost:3000/studio](http://localhost:3000/studio)
 
-5. Add the local origin to Sanity CORS (Credentials allowed): `http://localhost:3000`
+5. Add CORS origins in Sanity (Credentials allowed):
+
+- `http://localhost:3000`
+- `https://challenge-basementstudio.vercel.app`
 
 ## Scripts
 
@@ -53,9 +66,7 @@ npm run dev
 | `npm run lint` | ESLint |
 | `npm run typegen` | Extract schema + Sanity TypeGen |
 
-## Architecture notes
-
-See `docs/PHASE-1-ARCHITECTURE.md` and `docs/PHASE-3-BOOTSTRAP.md`.
+## Architecture
 
 ### Boundaries
 
@@ -67,9 +78,33 @@ See `docs/PHASE-1-ARCHITECTURE.md` and `docs/PHASE-3-BOOTSTRAP.md`.
 ### Rendering
 
 - Server Components by default
-- `"use client"` only for Studio, Motion, and future interactive chrome
+- `"use client"` only for Studio, Motion, and interactive chrome
 
-## Docs
+## Submission checklist (from brief)
 
-- `docs/PHASE-1-ARCHITECTURE.md` — strategy
-- `docs/PHASE-3-BOOTSTRAP.md` — what was installed and why
+When the challenge is ready, reply with links to:
+
+1. GitHub repo
+2. Vercel deployment
+3. Sanity CMS
+
+Invite:
+
+- GitHub: `valebearzotti`
+- Sanity: `valentina@basement.studio`
+
+## Implemented features / decisions
+
+_To be filled as implementation progresses._
+
+### Technical decisions
+
+- Embedded Sanity Studio for a single Vercel deploy
+- Motion over GSAP unless the design requires complex timeline scrubbing
+- Design tokens via CSS variables mapped into Tailwind `@theme`
+- URL-driven filters preferred over client-only filter state
+
+### Trade-offs / caveats
+
+- Sanity project ID is still a placeholder until the CMS project is created
+- Visual tokens are provisional until Figma extraction
