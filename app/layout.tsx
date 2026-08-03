@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { SITE_NAME } from "@/lib/constants";
-
 import "./globals.css";
 
 const geistSans = Geist({
@@ -19,10 +17,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: SITE_NAME,
-    template: `%s | ${SITE_NAME}`,
+    default: "basement. Journal",
+    template: `%s · basement.`,
   },
-  description: "An editorial blog powered by Sanity.",
+  description:
+    "Research, insights, and the science behind building brands & websites.",
 };
 
 export default function RootLayout({

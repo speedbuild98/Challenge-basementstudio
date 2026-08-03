@@ -6,13 +6,14 @@ type ContainerProps = {
   as?: ElementType;
   children: ReactNode;
   className?: string;
-  width?: "default" | "narrow" | "wide";
+  width?: "default" | "narrow" | "wide" | "full";
 };
 
 const widthClass = {
   default: "max-w-[var(--container-max)]",
   narrow: "max-w-[var(--container-narrow)]",
   wide: "max-w-[var(--container-wide)]",
+  full: "max-w-none",
 } as const;
 
 export function Container({

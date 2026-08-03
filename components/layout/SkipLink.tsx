@@ -10,7 +10,7 @@ export function SkipLink({ href = "#main-content", className }: SkipLinkProps) {
     <a
       href={href}
       className={cn(
-        "bg-foreground text-background focus:ring-focus absolute left-4 top-4 z-100 -translate-y-[200%] px-4 py-2 text-sm font-medium transition-transform focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-offset-2",
+        "absolute left-4 top-4 z-[100] -translate-y-[200%] bg-orange px-4 py-2 text-sm font-semibold text-black transition-transform focus:translate-y-0 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
         className,
       )}
     >
