@@ -16,7 +16,9 @@ Production-quality editorial blog built for the [Basement Studio Frontend Dev Ch
 
 - Architecture and Next.js/Sanity scaffold are in place
 - Site is deployed to Vercel
-- Next: connect a real Sanity project, extract Figma tokens, implement homepage + article fidelity
+- Sanity project connected: `basementstudio-challenge` (`1yrc1zg3`, dataset `production`)
+- Studio is **embedded** at `/studio` (not a separate `studio/` + `web/` monorepo)
+- Next: extract Figma tokens, seed content, implement homepage + article fidelity
 
 ## Stack
 
