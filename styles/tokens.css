@@ -1,44 +1,62 @@
 /*
-  Design tokens — source of truth for visual primitives.
-  Values are placeholders until Figma extraction (Phase 2/5).
-  Map into Tailwind via @theme in app/globals.css.
+  Design tokens — extracted from Basement Dev Challenge 2026 Figma
+  (Desktop Typekit + color styles).
 */
 
 :root {
-  /* Color roles */
-  --color-background: #ffffff;
-  --color-foreground: #111111;
-  --color-muted: #6b6b6b;
-  --color-muted-background: #f5f5f5;
-  --color-accent: #111111;
-  --color-accent-foreground: #ffffff;
-  --color-border: #e5e5e5;
-  --color-focus: #111111;
+  /* Brand palette */
+  --color-black: #000000;
+  --color-white: #e6e6e6;
+  --color-orange: #ff4d00;
+  --color-grey: #666666;
+  --color-light-grey: #c4c4c4;
+  --color-dark-grey: #2e2e2e;
+  --color-surface-light: #f5f5f5;
+  --color-card-frost: rgba(252, 252, 252, 0.25);
+  --color-card-frost-dark: rgba(58, 58, 58, 0.25);
+  --color-nav-from: rgba(153, 153, 153, 0.25);
+  --color-nav-to: rgba(74, 74, 74, 0.25);
 
-  /* Typography families — swap after Figma */
+  /* Semantic roles */
+  --color-background: var(--color-black);
+  --color-foreground: var(--color-white);
+  --color-muted: var(--color-grey);
+  --color-muted-foreground: var(--color-light-grey);
+  --color-muted-background: var(--color-dark-grey);
+  --color-accent: var(--color-orange);
+  --color-accent-foreground: var(--color-black);
+  --color-border: var(--color-dark-grey);
+  --color-focus: var(--color-orange);
+  --color-section-light: var(--color-surface-light);
+  --color-section-light-fg: var(--color-black);
+
+  /* Typography */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-geist-sans), ui-serif, Georgia, serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
-  /* Type scale (rem) */
-  --text-display: clamp(2.5rem, 5vw, 4.5rem);
-  --text-h1: clamp(2rem, 3.5vw, 3rem);
-  --text-h2: clamp(1.5rem, 2.5vw, 2rem);
-  --text-h3: 1.25rem;
-  --text-body: 1.0625rem;
-  --text-meta: 0.875rem;
-  --text-caption: 0.75rem;
+  /* Desktop type ramp */
+  --text-display: 4.75rem; /* 76 */
+  --text-h1: 2.375rem; /* 38 */
+  --text-h2: 1.5rem; /* 24 */
+  --text-h3: 1.5rem;
+  --text-body: 1rem; /* 16 */
+  --text-meta: 0.875rem; /* 14 mono */
+  --text-caption: 0.8125rem; /* 13 */
 
-  --leading-display: 1.05;
-  --leading-heading: 1.15;
-  --leading-body: 1.6;
+  --leading-display: 0.9;
+  --leading-h1: 0.95;
+  --leading-h2: 1.1;
+  --leading-body: 1.3;
   --leading-meta: 1.4;
+  --leading-caption: 1;
 
-  --tracking-display: -0.03em;
-  --tracking-heading: -0.02em;
-  --tracking-meta: 0.04em;
+  --tracking-display: -0.04em;
+  --tracking-h1: -0.04em;
+  --tracking-h2: -0.03em;
+  --tracking-body: 0;
+  --tracking-meta: -0.01em;
 
-  /* Spacing rhythm (4px base) */
+  /* Spacing (4px base) */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -50,24 +68,37 @@
   --space-9: 6rem;
   --space-10: 8rem;
 
-  /* Layout */
-  --container-max: 72rem;
-  --container-wide: 90rem;
+  /* Layout — Figma content ~1372px */
+  --container-max: 85.75rem;
+  --container-wide: 120rem;
   --container-narrow: 42rem;
-  --gutter: clamp(1rem, 4vw, 2rem);
+  --gutter: clamp(1rem, 5vw, 2rem);
 
-  /* Radius / borders */
-  --radius-none: 0;
   --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 1rem;
   --radius-full: 9999px;
   --border-width: 1px;
 
-  /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-fast: 150ms;
   --duration-base: 250ms;
   --duration-slow: 400ms;
+
+  --glow-orange: radial-gradient(
+    ellipse 70% 50% at 50% 48%,
+    rgba(255, 77, 0, 0.65) 0%,
+    rgba(255, 77, 0, 0.22) 32%,
+    transparent 68%
+  );
+}
+
+@media (max-width: 64rem) {
+  :root {
+    --text-display: clamp(2.5rem, 10vw, 4.75rem);
+    --text-h1: clamp(1.75rem, 5vw, 2.375rem);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

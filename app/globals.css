@@ -5,18 +5,28 @@
   --color-background: var(--color-background);
   --color-foreground: var(--color-foreground);
   --color-muted: var(--color-muted);
+  --color-muted-foreground: var(--color-muted-foreground);
   --color-muted-background: var(--color-muted-background);
   --color-accent: var(--color-accent);
   --color-accent-foreground: var(--color-accent-foreground);
   --color-border: var(--color-border);
   --color-focus: var(--color-focus);
+  --color-white: var(--color-white);
+  --color-black: var(--color-black);
+  --color-orange: var(--color-orange);
+  --color-grey: var(--color-grey);
+  --color-light-grey: var(--color-light-grey);
+  --color-dark-grey: var(--color-dark-grey);
+  --color-section-light: var(--color-section-light);
+  --color-section-light-fg: var(--color-section-light-fg);
 
   --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
 
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
 
   --breakpoint-sm: 40rem;
   --breakpoint-md: 48rem;
@@ -38,6 +48,7 @@
     font-family: var(--font-sans);
     font-size: var(--text-body);
     line-height: var(--leading-body);
+    font-feature-settings: "ss01" 1, "ss03" 1;
   }
 
   :focus-visible {
@@ -46,7 +57,7 @@
   }
 
   ::selection {
-    background: var(--color-foreground);
-    color: var(--color-background);
+    background: var(--color-orange);
+    color: var(--color-black);
   }
 }
