@@ -1,7 +1,12 @@
-import type { Metadata, Viewport } from "next";
+import type { Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { getSiteUrl } from "@/lib/site";
+import { JsonLd } from "@/components/motion/JsonLd";
+import {
+  buildRootMetadata,
+  organizationJsonLd,
+  websiteJsonLd,
+} from "@/lib/seo";
 
 import "./globals.css";
 
@@ -9,39 +14,17 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   display: "swap",
+  weight: ["400", "500", "600"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
+  weight: ["400", "500"],
 });
 
-const siteUrl = getSiteUrl();
-
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "basement. Journal",
-    template: `%s · basement.`,
-  },
-  description:
-    "Research, insights, and the science behind building brands & websites.",
-  applicationName: "basement. Journal",
-  icons: {
-    icon: [{ url: "/brand/basement-logo.svg", type: "image/svg+xml" }],
-    shortcut: ["/brand/basement-logo.svg"],
-    apple: [{ url: "/brand/basement-logo.svg" }],
-  },
-  openGraph: {
-    type: "website",
-    siteName: "basement. Journal",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary_large_image",
-  },
-};
+export const metadata = buildRootMetadata();
 
 export const viewport: Viewport = {
   themeColor: "#000000",
@@ -58,8 +41,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="color-scheme-dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-dvh antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${geistSans.className} min-h-dvh antialiased`}
       >
+        <JsonLd data={organizationJsonLd()} />
+        <JsonLd data={websiteJsonLd()} />
         {children}
       </body>
     </html>

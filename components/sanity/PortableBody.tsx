@@ -14,14 +14,15 @@ type PortableBodyProps = {
   className?: string;
 };
 
+/** Article body uses Typekit 24 / 16 — not the 38 display title. */
 const Heading2: PortableTextBlockComponent = ({ children }) => (
-  <h2 className="mt-16 font-semibold tracking-[var(--tracking-h1)] text-white first:mt-0 [font-size:var(--text-h1)] [line-height:var(--leading-h1)]">
+  <h2 className="mt-16 font-sans text-[length:var(--text-h2)] font-semibold leading-[var(--leading-h2)] tracking-[var(--tracking-h2)] text-white first:mt-0 [font-weight:var(--font-weight-semibold)]">
     {children}
   </h2>
 );
 
 const Heading3: PortableTextBlockComponent = ({ children }) => (
-  <h3 className="mt-8 font-semibold tracking-[var(--tracking-h2)] text-white [font-size:var(--text-h2)] [line-height:var(--leading-h2)]">
+  <h3 className="mt-8 font-sans text-[length:var(--text-h2)] font-semibold leading-[var(--leading-h2)] tracking-[var(--tracking-h2)] text-white [font-weight:var(--font-weight-semibold)]">
     {children}
   </h3>
 );
@@ -31,43 +32,45 @@ const components: PortableTextComponents = {
     h2: Heading2,
     h3: Heading3,
     normal: ({ children }) => (
-      <p className="mt-6 text-[length:var(--text-body)] leading-[var(--leading-body)] text-white first:mt-0">
+      <p className="mt-6 font-sans text-[length:var(--text-body)] font-normal leading-[var(--leading-body)] tracking-[var(--tracking-body)] text-white first:mt-0 [font-weight:var(--font-weight-regular)] md:text-base">
         {children}
       </p>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="mt-16 font-semibold tracking-[var(--tracking-h1)] text-white [font-size:clamp(1.75rem,4vw,var(--text-h1))] [line-height:var(--leading-h1)]">
+      <blockquote className="mt-16 font-sans text-[length:var(--text-h2)] font-semibold leading-[var(--leading-h2)] tracking-[var(--tracking-h2)] text-white [font-weight:var(--font-weight-semibold)]">
         {children}
       </blockquote>
     ),
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="mt-4 list-disc space-y-2 pl-6 text-white marker:text-orange">
+      <ul className="mt-4 list-disc space-y-2 pl-6 font-sans text-white marker:text-orange">
         {children}
       </ul>
     ),
     number: ({ children }) => (
-      <ol className="mt-4 list-decimal space-y-2 pl-6 text-white marker:text-orange">
+      <ol className="mt-4 list-decimal space-y-2 pl-6 font-sans text-white marker:text-orange">
         {children}
       </ol>
     ),
   },
   listItem: {
     bullet: ({ children }) => (
-      <li className="text-[length:var(--text-body)] leading-[var(--leading-body)]">
+      <li className="text-[length:var(--text-body)] leading-[var(--leading-body)] md:text-base">
         {children}
       </li>
     ),
     number: ({ children }) => (
-      <li className="text-[length:var(--text-body)] leading-[var(--leading-body)]">
+      <li className="text-[length:var(--text-body)] leading-[var(--leading-body)] md:text-base">
         {children}
       </li>
     ),
   },
   marks: {
     strong: ({ children }) => (
-      <strong className="font-semibold text-white">{children}</strong>
+      <strong className="font-semibold [font-weight:var(--font-weight-semibold)] text-white">
+        {children}
+      </strong>
     ),
     em: ({ children }) => <em className="italic">{children}</em>,
     code: ({ children }) => (
@@ -107,7 +110,7 @@ const components: PortableTextComponents = {
             <Image src={src} alt={alt} fill className="object-cover" sizes="904px" />
           </div>
           {value.caption ? (
-            <figcaption className="mt-3 font-mono text-[length:var(--text-meta)] uppercase tracking-[var(--tracking-meta)] text-grey">
+            <figcaption className="mt-3 font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-muted-foreground">
               {value.caption}
             </figcaption>
           ) : null}
@@ -121,7 +124,7 @@ export function PortableBody({ value, className }: PortableBodyProps) {
   if (!value?.length) return null;
 
   return (
-    <div className={cn("portable-body", className)}>
+    <div className={cn("portable-body font-sans", className)}>
       <PortableText value={value} components={components} />
     </div>
   );

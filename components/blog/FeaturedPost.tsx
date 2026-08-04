@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { PostImage } from "@/components/blog/PostImage";
+import { Magnetic } from "@/components/motion/Magnetic";
 import { Button } from "@/components/ui/Button";
 import { CategoryPill } from "@/components/ui/CategoryPill";
 import { Text } from "@/components/ui/Text";
@@ -48,7 +49,11 @@ export function FeaturedPost({ post, className }: FeaturedPostProps) {
             >
               {formatPostDate(post.publishedAt)}
             </Text>
-            <Text as="h2" variant="h1" className="text-white whitespace-pre-line">
+            <Text
+              as="h2"
+              variant="h1"
+              className="whitespace-pre-line text-white md:[font-size:var(--text-h1)]"
+            >
               <Link
                 href={href}
                 className="transition-colors duration-[var(--duration-fast)] hover:text-orange"
@@ -77,9 +82,11 @@ export function FeaturedPost({ post, className }: FeaturedPostProps) {
               </Text>
             ) : null}
           </div>
-          <Button href={href} variant="accent">
-            Read full blog post
-          </Button>
+          <Magnetic strength={14} className="inline-flex w-fit">
+            <Button href={href} variant="accent">
+              Read full blog post
+            </Button>
+          </Magnetic>
         </div>
       </div>
     </article>

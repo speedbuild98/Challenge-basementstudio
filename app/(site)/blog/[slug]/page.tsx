@@ -5,9 +5,11 @@ import { ArticleHeader } from "@/components/blog/ArticleHeader";
 import { PrevNextNav } from "@/components/blog/PrevNextNav";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import { Container } from "@/components/layout/Container";
+import { Reveal } from "@/components/motion/Reveal";
 import { PortableBody } from "@/components/sanity/PortableBody";
 import { getArticlePageData, getPostSlugs } from "@/lib/content/post";
 import { SITE_NAME } from "@/lib/constants";
+import { BRAND } from "@/lib/seo";
 import { urlForImage } from "@/lib/sanity/image";
 import { getSiteUrl } from "@/lib/site";
 import { serializeJsonLd } from "@/lib/utils/safe-json-ld";
@@ -42,7 +44,7 @@ function resolveOgImage(data: NonNullable<Awaited<ReturnType<typeof getArticlePa
     }
   }
   if (data.post.coverUrl) return `${getSiteUrl()}${data.post.coverUrl}`;
-  return undefined;
+  return `${getSiteUrl()}${BRAND.ogImage}`;
 }
 
 export async function generateMetadata({
@@ -64,18 +66,25 @@ export async function generateMetadata({
   return {
     title,
     description,
+    authors: [{ name: BRAND.name, url: BRAND.url }],
     alternates: { canonical: url },
     openGraph: {
       title,
       description,
       type: "article",
       url,
+      siteName: BRAND.name,
+      locale: BRAND.locale,
       publishedTime: data.post.publishedAt,
       modifiedTime: data.post._updatedAt || undefined,
-      images: image ? [{ url: image }] : undefined,
+      images: image
+        ? [{ url: image, width: 1200, height: 630, alt: title }]
+        : undefined,
     },
     twitter: {
       card: "summary_large_image",
+      site: BRAND.twitter,
+      creator: BRAND.twitter,
       title,
       description,
       images: image ? [image] : undefined,
@@ -103,17 +112,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       <article>
         <Container>
-          <ArticleHeader post={post} />
+          <Reveal y={28}>
+            <ArticleHeader post={post} />
+          </Reveal>
         </Container>
 
         <Container className="mt-16 md:mt-24">
-          <div className="mx-auto max-w-[904px]">
+          <Reveal y={32} delay={0.05} className="mx-auto max-w-[904px]">
             <PortableBody value={post.body} />
             <PrevNextNav previous={previous} next={next} />
-          </div>
+          </Reveal>
         </Container>
 
-        <RelatedPosts posts={related} />
+        <Reveal y={36}>
+          <RelatedPosts posts={related} />
+        </Reveal>
 
         <script
           type="application/ld+json"

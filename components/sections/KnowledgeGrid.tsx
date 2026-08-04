@@ -1,6 +1,8 @@
 import { FilterBar } from "@/components/blog/FilterBar";
 import { PostCard } from "@/components/blog/PostCard";
 import { Container } from "@/components/layout/Container";
+import { Reveal } from "@/components/motion/Reveal";
+import { Stagger } from "@/components/motion/Stagger";
 import { Text } from "@/components/ui/Text";
 import type { CategoryRef, PostCard as PostCardType } from "@/types/content";
 
@@ -45,40 +47,44 @@ export function KnowledgeGrid({
   return (
     <section className="bg-section-light text-section-light-fg">
       <Container className="py-16 md:py-24">
-        <Text
-          as="h2"
-          variant="display"
-          className="max-w-[12ch] text-balance text-black"
-        >
-          {title}
-        </Text>
+        <Reveal y={40}>
+          <Text
+            as="h2"
+            variant="display"
+            className="max-w-[12ch] text-balance text-black"
+          >
+            {title}
+          </Text>
+        </Reveal>
 
-        <FilterBar
-          categories={categories}
-          activeSlug={activeCategory}
-          className="mt-10 md:mt-14"
-        />
+        <Reveal delay={0.08} y={20} className="mt-10 md:mt-14">
+          <FilterBar categories={categories} activeSlug={activeCategory} />
+        </Reveal>
 
         {!unique.length ? (
           <p className="mt-10 text-[length:var(--text-body)] text-black/70">
             {emptyMessage}
           </p>
         ) : (
-          <>
-            <div className="mt-8 grid gap-8 md:grid-cols-3">
+          <Stagger className="mt-8 space-y-8" stagger={0.1}>
+            <div className="grid gap-8 md:grid-cols-3">
               {mediaRow.map((post) => (
-                <PostCard key={post._id} post={post} variant="media" />
+                <div key={post._id} data-stagger-item>
+                  <PostCard post={post} variant="media" />
+                </div>
               ))}
             </div>
 
             {textRow.length ? (
-              <div className="mt-8 grid gap-8 md:grid-cols-3">
+              <div className="grid gap-8 md:grid-cols-3">
                 {textRow.map((post) => (
-                  <PostCard key={`text-${post._id}`} post={post} variant="text" />
+                  <div key={`text-${post._id}`} data-stagger-item>
+                    <PostCard post={post} variant="text" />
+                  </div>
                 ))}
               </div>
             ) : null}
-          </>
+          </Stagger>
         )}
       </Container>
     </section>

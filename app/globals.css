@@ -20,8 +20,9 @@
   --color-section-light: var(--color-section-light);
   --color-section-light-fg: var(--color-section-light-fg);
 
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  /* Point at next/font variables — never self-reference */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
@@ -50,9 +51,10 @@
   body {
     background: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-sans);
+    font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
     font-size: var(--text-body);
     line-height: var(--leading-body);
+    font-weight: var(--font-weight-regular);
     font-feature-settings: "ss01" 1, "ss03" 1;
   }
 
@@ -64,5 +66,16 @@
   ::selection {
     background: var(--color-orange);
     color: var(--color-black);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

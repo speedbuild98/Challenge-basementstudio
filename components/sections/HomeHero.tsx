@@ -1,6 +1,7 @@
 import { FeaturedPost } from "@/components/blog/FeaturedPost";
 import { Container } from "@/components/layout/Container";
-import { OrangeGlow } from "@/components/layout/OrangeGlow";
+import { AnimatedGlow } from "@/components/motion/AnimatedGlow";
+import { HeroIntro } from "@/components/motion/HeroIntro";
 import { Text } from "@/components/ui/Text";
 import type { PostCard } from "@/types/content";
 
@@ -13,27 +14,36 @@ type HomeHeroProps = {
 export function HomeHero({ title, eyebrow, featured }: HomeHeroProps) {
   return (
     <section className="relative overflow-hidden pb-16 pt-10 md:pb-24 md:pt-16">
-      <OrangeGlow />
+      <AnimatedGlow />
       <Container className="relative z-10">
-        {eyebrow ? (
-          <Text variant="meta" className="mb-4 text-orange">
-            {eyebrow}
+        <HeroIntro>
+          {eyebrow ? (
+            <Text
+              variant="meta"
+              className="mb-4 text-orange"
+              data-hero-meta
+            >
+              {eyebrow}
+            </Text>
+          ) : null}
+          <Text
+            as="h1"
+            variant="display"
+            className="max-w-[16ch] text-balance text-white"
+            data-hero-title
+          >
+            {title}
           </Text>
-        ) : null}
-        {/* LCP: keep H1 + featured statically visible (no Motion opacity:0). */}
-        <Text
-          as="h1"
-          variant="display"
-          className="max-w-[16ch] text-balance text-white"
-        >
-          {title}
-        </Text>
 
-        {featured ? (
-          <div className="mx-auto mt-16 max-w-[902px] md:mt-20">
-            <FeaturedPost post={featured} />
-          </div>
-        ) : null}
+          {featured ? (
+            <div
+              className="mx-auto mt-16 max-w-[902px] md:mt-20"
+              data-hero-media
+            >
+              <FeaturedPost post={featured} />
+            </div>
+          ) : null}
+        </HeroIntro>
       </Container>
     </section>
   );

@@ -1,4 +1,4 @@
-export const SITE_NAME = "basement.";
+export const SITE_NAME = "basement.studio";
 
 export const ROUTES = {
   home: "/",

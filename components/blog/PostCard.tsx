@@ -25,7 +25,7 @@ export function PostCard({
   return (
     <article
       className={cn(
-        "flex h-full flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] bg-[var(--color-card-frost)] p-6",
+        "flex h-full flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] bg-[var(--color-card-frost)] p-6 transition-transform duration-[var(--duration-base)] ease-[var(--ease-out)] hover:-translate-y-1",
         className,
       )}
     >

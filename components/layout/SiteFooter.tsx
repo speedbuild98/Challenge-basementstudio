@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
+import { FooterWordmark } from "@/components/motion/FooterWordmark";
+import { Reveal } from "@/components/motion/Reveal";
 import { Text } from "@/components/ui/Text";
 import type { FooterColumn } from "@/lib/content/footer";
 import { defaultFooterColumns } from "@/lib/content/footer";
@@ -19,28 +21,23 @@ export function SiteFooter({
     <footer id="contact" className="relative overflow-hidden bg-black pt-9">
       <div className="border-t border-white/10" />
       <Container className="pt-9 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {columns.map((column) => (
-            <FooterColumnView key={column.title} column={column} />
-          ))}
-        </div>
+        <Reveal y={24}>
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            {columns.map((column) => (
+              <FooterColumnView key={column.title} column={column} />
+            ))}
+          </div>
+        </Reveal>
 
         {footerText ? (
-          <Text variant="body" className="mt-10 max-w-xl text-muted-foreground">
-            {footerText}
-          </Text>
+          <Reveal delay={0.05}>
+            <Text variant="body" className="mt-10 max-w-xl text-muted-foreground">
+              {footerText}
+            </Text>
+          </Reveal>
         ) : null}
 
-        <div className="relative mt-16 select-none" aria-hidden>
-          <Image
-            src="/brand/basement-wordmark.svg"
-            alt=""
-            width={1378}
-            height={193}
-            className="h-auto w-full opacity-90"
-            priority={false}
-          />
-        </div>
+        <FooterWordmark />
 
         <div className="mt-8 flex flex-col gap-4 border-t border-transparent pt-4 sm:flex-row sm:items-center sm:justify-between">
           <Text variant="meta" className="text-muted-foreground">
@@ -78,7 +75,7 @@ function FooterColumnView({ column }: { column: FooterColumn }) {
             <li key={`${column.title}-${link.label}`}>
               <Link
                 href={link.href}
-                className="inline-flex min-h-11 items-center text-[length:var(--text-body)] font-semibold text-white transition-colors hover:text-orange"
+                className="inline-flex min-h-11 items-center font-sans text-[length:var(--text-footer)] font-semibold leading-[var(--leading-body)] text-white transition-colors hover:text-orange [font-weight:var(--font-weight-semibold)] md:text-[length:var(--text-body)]"
                 {...(external
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}

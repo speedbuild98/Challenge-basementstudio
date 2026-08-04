@@ -5,53 +5,56 @@ import { useLayoutEffect, useRef, type ReactNode } from "react";
 import { getGsap, prefersReducedMotion } from "@/lib/gsap";
 import { cn } from "@/lib/utils/cn";
 
-type RevealProps = {
+type StaggerProps = {
   children: ReactNode;
   className?: string;
+  selector?: string;
   delay?: number;
+  stagger?: number;
   y?: number;
-  once?: boolean;
 };
 
-/**
- * GSAP scroll reveal. Content stays in the document for SEO;
- * animation enhances after mount and respects reduced motion.
- */
-export function Reveal({
+/** Stagger children (or matched selector) into view with GSAP. */
+export function Stagger({
   children,
   className,
+  selector = "[data-stagger-item]",
   delay = 0,
-  y = 36,
-  once = true,
-}: RevealProps) {
+  stagger = 0.08,
+  y = 28,
+}: StaggerProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el || prefersReducedMotion()) return;
+    const root = ref.current;
+    if (!root || prefersReducedMotion()) return;
+
+    const items = root.querySelectorAll(selector);
+    if (!items.length) return;
 
     const gsap = getGsap();
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        el,
+        items,
         { autoAlpha: 0, y },
         {
           autoAlpha: 1,
           y: 0,
-          duration: 0.9,
+          duration: 0.75,
           delay,
+          stagger,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: el,
-            start: "top 88%",
-            once,
+            trigger: root,
+            start: "top 85%",
+            once: true,
           },
         },
       );
-    }, el);
+    }, root);
 
     return () => ctx.revert();
-  }, [delay, once, y]);
+  }, [delay, selector, stagger, y]);
 
   return (
     <div ref={ref} className={cn(className)}>

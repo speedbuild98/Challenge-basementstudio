@@ -37,10 +37,7 @@ export function ArticleHeader({ post }: ArticleHeaderProps) {
 
         <div className="flex max-w-[553px] flex-col gap-6">
           {post.intro ? (
-            <Text
-              variant="h2"
-              className="font-normal tracking-[var(--tracking-h2)] text-white"
-            >
+            <Text variant="h2Regular" className="text-white">
               {post.intro}
             </Text>
           ) : null}
