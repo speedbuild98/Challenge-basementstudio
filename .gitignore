@@ -37,8 +37,10 @@ yarn-error.log*
 # Sanity TypeGen extract artifact (regenerated locally)
 /schema.json
 
-# Phase notes kept local for now
-/docs/
+# Phase notes kept local; allow README assets
+/docs/*
+!/docs/screenshots/
+!/docs/screenshots/**
 
 # vercel
 .vercel
