@@ -21,17 +21,17 @@ export function SiteHeader({
   const items = navigation?.length ? navigation : demoNav;
 
   return (
-    <header className="relative z-20 pt-4 md:pt-6">
+    <header className="relative z-20 pt-3 md:pt-[23px]">
       <Container>
         <div
           className={cn(
-            "flex h-[52px] items-center justify-between rounded-[var(--radius-lg)] py-2 pr-2 pl-4",
+            "flex h-10 items-center justify-between rounded-[10px] py-2 pl-4 pr-2 md:h-[50px]",
             "border border-white/10 bg-gradient-to-r from-[var(--color-nav-from)] to-[var(--color-nav-to)] backdrop-blur-md",
           )}
         >
           <Link
             href="/"
-            className="relative block h-8 w-[100px] shrink-0 focus-visible:outline-offset-4"
+            className="relative block h-9 w-[100px] shrink-0 focus-visible:outline-offset-4 md:h-[46px] md:w-[123px]"
             aria-label="basement. home"
           >
             <Image
@@ -44,7 +44,7 @@ export function SiteHeader({
           </Link>
 
           <nav aria-label="Primary" className="hidden lg:block">
-            <ul className="flex items-center gap-1">
+            <ul className="flex items-center gap-2">
               {items.map((item) => {
                 const active =
                   item.href === activeHref ||
@@ -54,7 +54,7 @@ export function SiteHeader({
                     <Link
                       href={item.href}
                       className={cn(
-                        "inline-flex min-h-11 items-center px-4 py-2 font-sans text-[length:var(--text-body)] font-semibold leading-[var(--leading-body)] tracking-[var(--tracking-body)] [font-weight:var(--font-weight-semibold)] transition-colors duration-[var(--duration-fast)] md:text-base",
+                        "inline-flex items-center px-4 py-2 font-sans text-base font-semibold leading-[1.3] tracking-[var(--tracking-body)] [font-weight:var(--font-weight-semibold)] transition-colors duration-[var(--duration-fast)]",
                         active
                           ? "text-orange"
                           : "text-white hover:text-orange",
@@ -77,11 +77,7 @@ export function SiteHeader({
 
           <div className="flex items-center gap-2">
             <Magnetic strength={12} className="hidden sm:inline-flex">
-              <Button
-                href="#contact"
-                variant="contact"
-                className="min-h-11 rounded-lg px-8"
-              >
+              <Button href="#contact" variant="contact">
                 Contact us
               </Button>
             </Magnetic>

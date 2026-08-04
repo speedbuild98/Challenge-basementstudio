@@ -16,8 +16,9 @@ export const demoCategories: CategoryRef[] = [
 ];
 
 export const demoHome: HomePageContent = {
-  title: "Research, insights, and the science behind building brands & websites.",
-  knowledgeTitle: "Knowledge Is Meant to Be Shared",
+  title:
+    "Research, insights, and the\nscience behind building brands\n& websites.",
+  knowledgeTitle: "Knowledge Is Meant\nto Be Shared",
 };
 
 export const demoPosts: PostCard[] = [

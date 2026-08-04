@@ -1,11 +1,5 @@
-"use client";
-
-import Image from "next/image";
-import type { SanityImageSource } from "@sanity/image-url";
-import { useState } from "react";
-
-import { urlForImage } from "@/lib/sanity/image";
-import { cn } from "@/lib/utils/cn";
+import { PostImageClient } from "@/components/blog/PostImageClient";
+import { resolvePostCoverSrc } from "@/lib/content/post-image";
 import type { PostCard } from "@/types/content";
 
 type PostImageProps = {
@@ -17,71 +11,25 @@ type PostImageProps = {
   height?: number;
 };
 
-function resolveSrc(post: PostCard, width: number, height: number) {
-  if (post.coverUrl) return post.coverUrl;
-  if (post.coverImage?.asset) {
-    try {
-      return urlForImage(post.coverImage as SanityImageSource)
-        .width(width)
-        .height(height)
-        .fit("crop")
-        .url();
-    } catch {
-      return null;
-    }
-  }
-  return null;
-}
-
-function BrandPlaceholder({ className }: { className?: string }) {
-  return (
-    <div
-      className={cn(
-        "flex size-full items-center justify-center bg-black",
-        className,
-      )}
-      aria-hidden
-    >
-      <Image
-        src="/brand/basement-logo.svg"
-        alt=""
-        width={123}
-        height={46}
-        className="h-6 w-auto opacity-90 md:h-7"
-      />
-    </div>
-  );
-}
-
+/** Server wrapper: resolves Sanity URLs, then hydrates the client image UI. */
 export function PostImage({
   post,
   className,
-  sizes = "(max-width: 768px) 100vw, 33vw",
+  sizes,
   priority = false,
   width = 1200,
   height = 675,
 }: PostImageProps) {
-  const src = resolveSrc(post, width, height);
-  const [failed, setFailed] = useState(false);
+  const src = resolvePostCoverSrc(post, width, height);
   const alt = post.coverImage?.alt || post.title;
 
-  if (!src || failed) {
-    return <BrandPlaceholder className={className} />;
-  }
-
   return (
-    <>
-      {/* Fallback under the image if remote asset paints blank/fails */}
-      <BrandPlaceholder className={cn("absolute inset-0", className)} />
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        sizes={sizes}
-        priority={priority}
-        className={cn("object-cover", className)}
-        onError={() => setFailed(true)}
-      />
-    </>
+    <PostImageClient
+      src={src}
+      alt={alt}
+      className={className}
+      sizes={sizes}
+      priority={priority}
+    />
   );
 }

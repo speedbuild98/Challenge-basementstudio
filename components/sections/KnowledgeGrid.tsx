@@ -1,9 +1,10 @@
 import { FilterBar } from "@/components/blog/FilterBar";
-import { PostCard } from "@/components/blog/PostCard";
 import { Container } from "@/components/layout/Container";
 import { Reveal } from "@/components/motion/Reveal";
-import { Stagger } from "@/components/motion/Stagger";
+import { KnowledgeGridList } from "@/components/sections/KnowledgeGridList";
 import { Text } from "@/components/ui/Text";
+import { formatKnowledgeTitle } from "@/lib/content/knowledge-title";
+import { resolvePostCoverSrc } from "@/lib/content/post-image";
 import type { CategoryRef, PostCard as PostCardType } from "@/types/content";
 
 type KnowledgeGridProps = {
@@ -23,6 +24,11 @@ function uniqueById(posts: PostCardType[]) {
   });
 }
 
+/**
+ * Figma Desktop Blog 19:993 (light band):
+ * pt 58 · title 755 · title→filters 192 · filters gap 40 · filters→grid 55 · grid gap 32
+ * Mobile 155:4213: pt ~13 · title→filters ~155 · filters→grid ~31 · grid gap 12
+ */
 export function KnowledgeGrid({
   title,
   posts,
@@ -30,53 +36,35 @@ export function KnowledgeGrid({
   activeCategory = null,
   emptyMessage = "No posts published yet.",
 }: KnowledgeGridProps) {
-  const unique = uniqueById(posts);
-  // Always prefer a media row so missing covers still show the brand placeholder.
-  const mediaRow = unique.slice(0, 3);
-  const mediaIds = new Set(mediaRow.map((post) => post._id));
-  const textRow = unique.filter((post) => !mediaIds.has(post._id)).slice(0, 3);
+  const unique = uniqueById(posts).map((post) => ({
+    ...post,
+    coverSrc: resolvePostCoverSrc(post),
+  }));
+  const heading = formatKnowledgeTitle(title);
 
   return (
     <section className="bg-section-light text-section-light-fg">
-      <Container className="py-16 md:py-24">
+      <Container className="pb-16 pt-3 md:pb-[4.75rem] md:pt-[3.625rem]">
         <Reveal y={40}>
           <Text
             as="h2"
             variant="display"
-            className="max-w-[12ch] text-balance text-black"
+            className="max-w-[755px] whitespace-pre-line text-black"
           >
-            {title}
+            {heading}
           </Text>
         </Reveal>
 
-        <Reveal delay={0.08} y={20} className="mt-10 md:mt-14">
+        <Reveal delay={0.08} y={20} className="mt-[9.75rem] md:mt-[12rem]">
           <FilterBar categories={categories} activeSlug={activeCategory} />
         </Reveal>
 
         {!unique.length ? (
-          <p className="mt-10 text-[length:var(--text-body)] text-black/70">
+          <p className="mt-8 text-[length:var(--text-body)] text-[#666] md:mt-[3.45rem]">
             {emptyMessage}
           </p>
         ) : (
-          <Stagger className="mt-8 space-y-8" stagger={0.1}>
-            <div className="grid gap-8 md:grid-cols-3">
-              {mediaRow.map((post) => (
-                <div key={post._id} data-stagger-item>
-                  <PostCard post={post} variant="media" />
-                </div>
-              ))}
-            </div>
-
-            {textRow.length ? (
-              <div className="grid gap-8 md:grid-cols-3">
-                {textRow.map((post) => (
-                  <div key={`text-${post._id}`} data-stagger-item>
-                    <PostCard post={post} variant="text" />
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </Stagger>
+          <KnowledgeGridList posts={unique} />
         )}
       </Container>
     </section>

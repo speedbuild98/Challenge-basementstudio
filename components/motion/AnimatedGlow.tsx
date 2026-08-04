@@ -10,7 +10,7 @@ type AnimatedGlowProps = {
   className?: string;
 };
 
-/** Ambient orange glow with a slow GSAP breathe. */
+/** Full-bleed glow layer — must stay `absolute inset-0` so GSAP scale has a real box. */
 export function AnimatedGlow({ className }: AnimatedGlowProps) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -21,9 +21,9 @@ export function AnimatedGlow({ className }: AnimatedGlowProps) {
     const gsap = getGsap();
     const ctx = gsap.context(() => {
       gsap.to(el, {
-        scale: 1.08,
-        opacity: 0.85,
-        duration: 4.5,
+        scale: 1.04,
+        opacity: 0.92,
+        duration: 5,
         ease: "sine.inOut",
         yoyo: true,
         repeat: -1,
@@ -34,7 +34,13 @@ export function AnimatedGlow({ className }: AnimatedGlowProps) {
   }, []);
 
   return (
-    <div ref={ref} className={cn("origin-center will-change-transform", className)}>
+    <div
+      ref={ref}
+      className={cn(
+        "pointer-events-none absolute inset-0 -z-0 origin-[50%_55%] will-change-transform",
+        className,
+      )}
+    >
       <OrangeGlow />
     </div>
   );

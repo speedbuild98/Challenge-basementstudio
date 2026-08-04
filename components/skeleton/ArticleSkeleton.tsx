@@ -7,11 +7,11 @@ export function ArticleSkeleton() {
       <span className="sr-only">Loading article…</span>
 
       <Container>
-        <header className="pt-6 md:pt-10">
+        <header className="pt-[2.75rem] md:pt-[6.75rem]">
           <Skeleton tone="dark" className="h-11 w-28" rounded="sm" />
           <div className="mt-2 border-t border-white/15" />
 
-          <div className="mt-10 flex flex-col gap-10 lg:mt-14 lg:flex-row lg:items-start lg:justify-between">
+          <div className="mt-[3.75rem] flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
             <div className="flex max-w-[304px] flex-col gap-3">
               <Skeleton tone="dark" className="h-10 w-full" />
               <Skeleton tone="dark" className="h-10 w-5/6" />
@@ -41,13 +41,13 @@ export function ArticleSkeleton() {
           <Skeleton
             tone="dark"
             rounded="none"
-            className="mt-8 aspect-[4/3] w-full border border-white/20 md:aspect-[1372/472]"
+            className="mt-8 aspect-[366/126] w-full border border-white/20 md:aspect-[1372/472]"
           />
         </header>
       </Container>
 
-      <Container className="mt-16 md:mt-24">
-        <div className="mx-auto max-w-[904px] space-y-5">
+      <Container className="mt-10 md:mt-[9rem]">
+        <div className="mx-auto max-w-[904px] space-y-5 xl:ml-[234px] xl:mr-auto">
           {Array.from({ length: 8 }).map((_, i) => (
             <Skeleton
               key={i}
@@ -71,23 +71,28 @@ export function ArticleSkeleton() {
         </div>
       </Container>
 
-      <section className="mt-24 border-t border-white/10 pt-16 md:mt-32 md:pt-20">
+      <section className="mt-20 border-t border-white/10 pb-10 pt-12 md:mt-32 md:pb-[6.75rem] md:pt-20">
         <Container>
-          <div className="flex flex-col gap-10 lg:flex-row lg:gap-8">
-            <div className="flex shrink-0 flex-col gap-2 lg:w-[140px]">
+          <div className="flex flex-col gap-12 md:flex-row md:gap-[6.3rem]">
+            <div className="flex shrink-0 flex-col gap-2 md:w-[133px]">
               <Skeleton tone="dark" className="h-8 w-24" />
               <Skeleton tone="dark" className="h-8 w-20" />
             </div>
-            <div className="grid flex-1 gap-8 md:grid-cols-3">
+            <div className="grid flex-1 gap-3 md:grid-cols-3 md:gap-8">
               {Array.from({ length: 3 }).map((_, i) => (
                 <div
                   key={i}
-                  className="rounded-[var(--radius-xl)] bg-[var(--color-card-frost-dark)] p-4"
+                  className="rounded-[var(--radius-xl)] border border-white/20 bg-[var(--color-card-frost-dark)] p-4"
                 >
-                  <Skeleton tone="dark" rounded="md" className="h-[137px] w-full" />
+                  <Skeleton
+                    tone="dark"
+                    rounded="md"
+                    className="h-[110px] w-full md:h-[137px]"
+                  />
                   <Skeleton tone="dark" className="mt-6 h-3 w-20" />
                   <Skeleton tone="dark" className="mt-4 h-7 w-full" />
                   <Skeleton tone="dark" className="mt-2 h-7 w-4/5" />
+                  <Skeleton tone="dark" className="mt-4 h-5 w-16" rounded="sm" />
                   <Skeleton tone="dark" className="mt-6 h-11 w-28" rounded="sm" />
                 </div>
               ))}

@@ -10,38 +10,39 @@ import { defaultFooterColumns } from "@/lib/content/footer";
 
 type SiteFooterProps = {
   columns?: FooterColumn[];
+  /** Unused in layout — copyright lives in the bottom bar (Figma). */
   footerText?: string | null;
 };
 
+/**
+ * Figma footer 19:1096:
+ * columns @ left pitch ~234 · title→links gap 16 · link gap 8
+ * wordmark full-bleed · copyright + SoDA bottom row
+ */
 export function SiteFooter({
   columns = defaultFooterColumns,
-  footerText,
 }: SiteFooterProps) {
+  const year = new Date().getFullYear();
+
   return (
-    <footer id="contact" className="relative overflow-hidden bg-black pt-9">
+    <footer id="contact" className="relative overflow-hidden bg-black">
       <div className="border-t border-white/10" />
-      <Container className="pt-9 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+      {/* Figma Desktop Footer: columns @ y+35 inside 550px frame */}
+      <Container className="pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[2.2rem]">
         <Reveal y={24}>
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Figma: columns clustered left, not stretched across the well */}
+          <div className="flex flex-wrap gap-x-[9.625rem] gap-y-10">
             {columns.map((column) => (
               <FooterColumnView key={column.title} column={column} />
             ))}
           </div>
         </Reveal>
 
-        {footerText ? (
-          <Reveal delay={0.05}>
-            <Text variant="body" className="mt-10 max-w-xl text-muted-foreground">
-              {footerText}
-            </Text>
-          </Reveal>
-        ) : null}
-
         <FooterWordmark />
 
-        <div className="mt-8 flex flex-col gap-4 border-t border-transparent pt-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 flex flex-col gap-4 sm:mt-8 sm:flex-row sm:items-center sm:justify-between">
           <Text variant="meta" className="text-muted-foreground">
-            © basement.studio LLC {new Date().getFullYear()}. All rights reserved.
+            © basement.studio LLC {year}. All rights reserved.
           </Text>
           <div className="flex items-center gap-4">
             <Text variant="meta" className="text-muted-foreground">
@@ -63,8 +64,8 @@ export function SiteFooter({
 
 function FooterColumnView({ column }: { column: FooterColumn }) {
   return (
-    <div>
-      <Text variant="meta" className="mb-4 text-orange">
+    <div className="flex min-w-[4.9rem] flex-col gap-4">
+      <Text variant="meta" className="text-orange">
         {column.title}
       </Text>
       <ul className="flex flex-col gap-2">
@@ -75,7 +76,7 @@ function FooterColumnView({ column }: { column: FooterColumn }) {
             <li key={`${column.title}-${link.label}`}>
               <Link
                 href={link.href}
-                className="inline-flex min-h-11 items-center font-sans text-[length:var(--text-footer)] font-semibold leading-[var(--leading-body)] text-white transition-colors hover:text-orange [font-weight:var(--font-weight-semibold)] md:text-[length:var(--text-body)]"
+                className="inline-flex font-sans text-base font-semibold leading-[1.3] tracking-[var(--tracking-body)] text-white transition-colors hover:text-orange [font-weight:var(--font-weight-semibold)]"
                 {...(external
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}

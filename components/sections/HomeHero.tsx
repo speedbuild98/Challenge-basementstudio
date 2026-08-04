@@ -3,6 +3,7 @@ import { Container } from "@/components/layout/Container";
 import { AnimatedGlow } from "@/components/motion/AnimatedGlow";
 import { HeroIntro } from "@/components/motion/HeroIntro";
 import { Text } from "@/components/ui/Text";
+import { formatHeroTitle } from "@/lib/content/hero-title";
 import type { PostCard } from "@/types/content";
 
 type HomeHeroProps = {
@@ -11,9 +12,16 @@ type HomeHeroProps = {
   featured?: PostCard | null;
 };
 
+/**
+ * Figma Desktop Blog (19:993) / Mobile Blog (155:4213):
+ * desktop: title@171 · featured@671 (~296 below title) · light@1350 (~286 after card)
+ * mobile: title@63 · featured@307 (~100 below title) · light@768 (~101 after card)
+ */
 export function HomeHero({ title, eyebrow, featured }: HomeHeroProps) {
+  const heroTitle = formatHeroTitle(title);
+
   return (
-    <section className="relative overflow-hidden pb-16 pt-10 md:pb-24 md:pt-16">
+    <section className="relative overflow-hidden pb-[6.3rem] pt-3 md:pb-[17.875rem] md:pt-[6.125rem]">
       <AnimatedGlow />
       <Container className="relative z-10">
         <HeroIntro>
@@ -29,15 +37,15 @@ export function HomeHero({ title, eyebrow, featured }: HomeHeroProps) {
           <Text
             as="h1"
             variant="display"
-            className="max-w-[16ch] text-balance text-white"
+            className="max-w-[13.9em] whitespace-pre-line text-white"
             data-hero-title
           >
-            {title}
+            {heroTitle}
           </Text>
 
           {featured ? (
             <div
-              className="mx-auto mt-16 max-w-[902px] md:mt-20"
+              className="mx-auto mt-[6.25rem] w-full max-w-[902px] md:mt-[18.5rem]"
               data-hero-media
             >
               <FeaturedPost post={featured} />

@@ -15,31 +15,36 @@ type FeaturedPostProps = {
   className?: string;
 };
 
+/**
+ * Figma 19:1008 — 902×394, gap 48, pl-16 pr-8 py-8, image 483×360, copy 325.
+ */
 export function FeaturedPost({ post, className }: FeaturedPostProps) {
   const href = ROUTES.post(post.slug);
 
   return (
     <article
       className={cn(
-        "overflow-hidden rounded-[var(--radius-xl)] bg-[var(--color-card-frost-dark)] p-2 pl-4",
+        "w-full overflow-hidden rounded-2xl border border-white/20 bg-[var(--color-card-frost-dark)] p-4 backdrop-blur-md md:py-2 md:pl-4 md:pr-2",
         className,
       )}
     >
-      <div className="flex flex-col gap-8 md:flex-row md:items-center">
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-12">
         <Link
           href={href}
-          className="relative aspect-[482/360] w-full overflow-hidden rounded-[var(--radius-md)] md:max-w-[482px] md:shrink-0"
+          className="relative aspect-[334/194] w-full overflow-hidden rounded-md md:aspect-auto md:h-[360px] md:w-[483px] md:shrink-0"
           tabIndex={-1}
           aria-hidden
         >
           <PostImage
             post={post}
             priority
-            sizes="(max-width: 768px) 100vw, 482px"
+            width={483}
+            height={360}
+            sizes="(max-width: 768px) 100vw, 483px"
           />
         </Link>
 
-        <div className="flex max-w-[325px] flex-col justify-center gap-6 py-4 pr-2 md:min-h-[360px]">
+        <div className="flex w-full flex-col justify-center gap-6 py-2 md:h-[360px] md:max-w-[325px]">
           <div className="flex flex-col gap-4">
             <Text
               as="time"
@@ -52,7 +57,7 @@ export function FeaturedPost({ post, className }: FeaturedPostProps) {
             <Text
               as="h2"
               variant="h1"
-              className="whitespace-pre-line text-white md:[font-size:var(--text-h1)]"
+              className="whitespace-pre-line text-white"
             >
               <Link
                 href={href}
@@ -77,7 +82,10 @@ export function FeaturedPost({ post, className }: FeaturedPostProps) {
               </ul>
             ) : null}
             {post.excerpt ? (
-              <Text variant="body" className="text-muted-foreground">
+              <Text
+                variant="body"
+                className="line-clamp-3 text-muted-foreground"
+              >
                 {post.excerpt}
               </Text>
             ) : null}

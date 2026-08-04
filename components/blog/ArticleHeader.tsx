@@ -11,22 +11,28 @@ type ArticleHeaderProps = {
   post: PostDetail;
 };
 
+/**
+ * Figma Blog Post 9:703 / Mobile 158:4873:
+ * go-back @181 desktop / @96 mobile · stack gap 60 · cover 1372×472
+ */
 export function ArticleHeader({ post }: ArticleHeaderProps) {
   const authors =
     post.authors?.map((author) => author.name).filter(Boolean).join(", ") ||
     null;
 
   return (
-    <header className="pt-6 md:pt-10">
-      <Link
-        href="/"
-        className="inline-flex min-h-11 items-center font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:text-orange"
-      >
-        ← Go back
-      </Link>
-      <div className="mt-2 border-t border-white/15" />
+    <header className="pt-[2.75rem] md:pt-[6.75rem]">
+      <div className="flex flex-col gap-2">
+        <Link
+          href="/"
+          className="inline-flex min-h-11 items-center font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:text-orange"
+        >
+          ← Go back
+        </Link>
+        <div className="border-t border-white/15" />
+      </div>
 
-      <div className="mt-10 flex flex-col gap-10 lg:mt-14 lg:flex-row lg:items-start lg:justify-between">
+      <div className="mt-[3.75rem] flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
         <Text
           as="h1"
           variant="h1"
@@ -84,8 +90,7 @@ export function ArticleHeader({ post }: ArticleHeaderProps) {
         ) : null}
       </div>
 
-      {/* Mobile ~4:3 strip; desktop panoramic Figma ratio */}
-      <div className="relative mt-8 aspect-[4/3] w-full overflow-hidden border border-white/20 md:aspect-[1372/472]">
+      <div className="relative mt-8 aspect-[366/126] w-full overflow-hidden border border-white/20 md:mt-14 md:aspect-[1372/472]">
         <PostImage
           post={post}
           priority

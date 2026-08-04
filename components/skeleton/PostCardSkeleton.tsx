@@ -13,13 +13,23 @@ export function PostCardSkeleton({
   return (
     <div
       className={cn(
-        "flex h-full flex-col justify-between overflow-hidden rounded-[var(--radius-xl)] bg-[var(--color-card-frost)] p-6",
+        "flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-black/10 bg-[var(--color-card-frost)] p-4 backdrop-blur-xl md:p-6",
+        variant === "media" ? "md:min-h-[400px]" : "md:min-h-[250px]",
         className,
       )}
     >
-      <div className="flex flex-col gap-6">
+      <div
+        className={cn(
+          "flex flex-col",
+          variant === "media" ? "gap-4 md:gap-6" : "gap-4",
+        )}
+      >
         {variant === "media" ? (
-          <Skeleton tone="light" rounded="md" className="h-[137px] w-full" />
+          <Skeleton
+            tone="light"
+            rounded="md"
+            className="h-[110px] w-full md:h-[137px]"
+          />
         ) : null}
         <div className="flex flex-col gap-4">
           <Skeleton tone="light" className="h-3 w-20" />
@@ -31,7 +41,7 @@ export function PostCardSkeleton({
           </div>
         </div>
       </div>
-      <Skeleton tone="light" className="mt-6 h-11 w-28" rounded="sm" />
+      <Skeleton tone="light" className="mt-6 h-9 w-28" rounded="sm" />
     </div>
   );
 }

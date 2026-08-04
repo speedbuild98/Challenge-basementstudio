@@ -50,7 +50,7 @@ export default async function TagPage({ params }: TagPageProps) {
       </section>
 
       <KnowledgeGrid
-        title="Knowledge Is Meant to Be Shared"
+        title="Knowledge Is Meant\nto Be Shared"
         posts={data.posts}
         categories={data.categories}
         emptyMessage={`No published posts tagged ${data.term.title} yet.`}

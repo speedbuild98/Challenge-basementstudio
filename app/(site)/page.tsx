@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { HomeHero } from "@/components/sections/HomeHero";
 import { KnowledgeGrid } from "@/components/sections/KnowledgeGrid";
 import { getHomePageData } from "@/lib/content/home";
+import { FIGMA_HERO_TITLE } from "@/lib/content/hero-title";
+import { FIGMA_KNOWLEDGE_TITLE } from "@/lib/content/knowledge-title";
 import { BRAND } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site";
 
@@ -65,15 +67,12 @@ export default async function HomePage() {
         </p>
       ) : null}
       <HomeHero
-        title={
-          home.title ||
-          "Research, insights, and the science behind building brands & websites."
-        }
+        title={home.title || FIGMA_HERO_TITLE}
         eyebrow={home.eyebrow}
         featured={featured}
       />
       <KnowledgeGrid
-        title={home.knowledgeTitle || "Knowledge Is Meant to Be Shared"}
+        title={home.knowledgeTitle || FIGMA_KNOWLEDGE_TITLE}
         posts={gridPosts.length ? gridPosts : posts}
         categories={categories}
         emptyMessage="Publish posts in Sanity Studio to populate the journal."

@@ -1,83 +1,43 @@
-import Link from "next/link";
-
-import { PostImage } from "@/components/blog/PostImage";
-import { Button } from "@/components/ui/Button";
-import { CategoryPill } from "@/components/ui/CategoryPill";
-import { Text } from "@/components/ui/Text";
+import { PostCard } from "@/components/blog/PostCard";
 import { Container } from "@/components/layout/Container";
-import { ROUTES } from "@/lib/constants";
-import { formatPostDate } from "@/lib/utils/format-date";
-import type { PostCard } from "@/types/content";
+import { Text } from "@/components/ui/Text";
+import { resolvePostCoverSrc } from "@/lib/content/post-image";
+import type { PostCard as PostCardType } from "@/types/content";
 
 type RelatedPostsProps = {
-  posts: PostCard[];
+  posts: PostCardType[];
 };
 
+/**
+ * Figma Blog Post 9:703 related:
+ * title 38 / 133px · cards x≈508 · gap 32 · p-16
+ * cards bottom → Desktop Footer (y=3193) = 108px
+ */
 export function RelatedPosts({ posts }: RelatedPostsProps) {
   if (!posts.length) return null;
 
+  const items = posts.slice(0, 3).map((post) => ({
+    ...post,
+    coverSrc: resolvePostCoverSrc(post),
+  }));
+
   return (
-    <section className="mt-24 border-t border-white/10 pt-16 md:mt-32 md:pt-20">
+    <section className="mt-20 border-t border-white/10 pb-10 pt-12 md:mt-32 md:pb-[6.75rem] md:pt-20">
       <Container>
-        <div className="flex flex-col gap-10 lg:flex-row lg:gap-8">
+        {/* Figma 9:703: title 38 stacked 133px · gap ~101 · cards p-16 gap 32 */}
+        <div className="flex flex-col gap-12 md:flex-row md:items-start md:gap-[6.3rem]">
           <Text
             as="h2"
             variant="h1"
-            className="shrink-0 text-white lg:w-[140px]"
+            className="shrink-0 whitespace-pre-line text-white md:w-[133px]"
           >
-            Related
-            <br />
-            Posts
+            {"Related\nPosts"}
           </Text>
 
-          <ul className="grid flex-1 gap-8 md:grid-cols-3">
-            {posts.map((post) => (
-              <li key={post._id}>
-                <article className="flex h-full flex-col justify-between rounded-[var(--radius-xl)] bg-[var(--color-card-frost-dark)] p-4">
-                  <div className="flex flex-col gap-6">
-                    <Link
-                      href={ROUTES.post(post.slug)}
-                      className="relative block h-[137px] overflow-hidden rounded-[var(--radius-md)]"
-                      tabIndex={-1}
-                      aria-hidden
-                    >
-                      <PostImage
-                        post={post}
-                        sizes="(max-width: 768px) 100vw, 436px"
-                      />
-                    </Link>
-                    <div className="flex flex-col gap-4">
-                      <Text
-                        as="time"
-                        variant="caption"
-                        className="text-muted-foreground"
-                        dateTime={post.publishedAt}
-                      >
-                        {formatPostDate(post.publishedAt)}
-                      </Text>
-                      <Text as="h3" variant="h2" className="text-white">
-                        <Link
-                          href={ROUTES.post(post.slug)}
-                          className="transition-colors hover:text-orange"
-                        >
-                          {post.title}
-                        </Link>
-                      </Text>
-                      {post.categories?.[0] ? (
-                        <CategoryPill
-                          label={post.categories[0].title}
-                          href={ROUTES.category(post.categories[0].slug)}
-                          tone="dark"
-                        />
-                      ) : null}
-                    </div>
-                  </div>
-                  <div className="mt-6">
-                    <Button href={ROUTES.post(post.slug)} variant="accent">
-                      Read more
-                    </Button>
-                  </div>
-                </article>
+          <ul className="grid min-w-0 flex-1 gap-3 md:grid-cols-3 md:gap-8">
+            {items.map((post) => (
+              <li key={post._id} className="min-w-0">
+                <PostCard post={post} variant="media" tone="dark" />
               </li>
             ))}
           </ul>

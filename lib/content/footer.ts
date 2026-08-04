@@ -6,7 +6,7 @@ export type FooterColumn = {
   external?: boolean;
 };
 
-/** Real Basement destinations — never ship `#` placeholders. */
+/** Figma Desktop Blog footer (19:1096) — real Basement destinations. */
 export const defaultFooterColumns: FooterColumn[] = [
   {
     title: "Website",
@@ -22,8 +22,13 @@ export const defaultFooterColumns: FooterColumn[] = [
   {
     title: "Legal",
     links: [
+      { label: "Terms of Use", href: "https://basement.studio/terms" },
+      {
+        label: "Terms and Conditions",
+        href: "https://basement.studio/terms-and-conditions",
+      },
       { label: "Privacy Policy", href: "https://basement.studio/privacy" },
-      { label: "Cookies", href: "https://basement.studio/cookies" },
+      { label: "Trust Center", href: "https://basement.studio/trust" },
     ],
   },
   {
@@ -37,28 +42,27 @@ export const defaultFooterColumns: FooterColumn[] = [
   },
 ];
 
+/**
+ * Keep Figma column structure. CMS footer.links may only hold a few items
+ * (e.g. Blog + socials) — never collapse Website/Legal to that incomplete set.
+ */
 export function resolveFooterColumns(
   cmsLinks?: NavItem[] | null,
 ): FooterColumn[] {
   if (!cmsLinks?.length) return defaultFooterColumns;
 
-  const blog = { label: "Blog", href: "/" };
   const external = cmsLinks.filter((link) => /^https?:\/\//i.test(link.href));
-  const internal = cmsLinks.filter((link) => !/^https?:\/\//i.test(link.href));
+  const social = external.filter((link) =>
+    /twitter|x\.com|instagram|github/i.test(`${link.label} ${link.href}`),
+  );
 
   return [
-    {
-      title: "Website",
-      links: [
-        blog,
-        ...internal.filter((link) => link.href !== "/" && link.href !== "#"),
-      ],
-    },
+    defaultFooterColumns[0],
     defaultFooterColumns[1],
     {
       title: "Connect",
       external: true,
-      links: external.length ? external : defaultFooterColumns[2].links,
+      links: social.length ? social : defaultFooterColumns[2].links,
     },
   ];
 }

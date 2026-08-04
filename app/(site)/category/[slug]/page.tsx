@@ -61,7 +61,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       </section>
 
       <KnowledgeGrid
-        title="Knowledge Is Meant to Be Shared"
+        title="Knowledge Is Meant\nto Be Shared"
         posts={data.posts}
         categories={data.categories}
         activeCategory={data.term.slug}

@@ -13,10 +13,12 @@
   --color-light-grey: #c4c4c4;
   --color-dark-grey: #2e2e2e;
   --color-surface-light: #f5f5f5;
+  /* Figma exact frosts — pair with backdrop-blur in components */
   --color-card-frost: rgba(252, 252, 252, 0.25);
   --color-card-frost-dark: rgba(58, 58, 58, 0.25);
-  --color-nav-from: rgba(153, 153, 153, 0.25);
-  --color-nav-to: rgba(74, 74, 74, 0.25);
+  /* Figma nav gradient: 74 → 153 */
+  --color-nav-from: rgba(74, 74, 74, 0.25);
+  --color-nav-to: rgba(153, 153, 153, 0.25);
 
   /* Semantic roles */
   --color-background: var(--color-black);
@@ -83,21 +85,24 @@
   --space-9: 6rem;
   --space-10: 8rem;
 
-  /* Layout — Figma content ~1372px */
-  --container-max: 85.75rem;
+  /* Layout — Figma 1920 frame, content 1372, side inset 274 */
+  --container-max: 85.75rem; /* 1372 */
   --container-wide: 120rem;
-  --container-narrow: 42rem;
+  --container-narrow: 56.5rem; /* 904 article body */
+  /*
+    Mobile Blog inset 12. Desktop inset comes from max-w + mx-auto
+    (do NOT also pad by (100vw-1372)/2 — that double-shrinks the well).
+  */
   --gutter: max(
-    1rem,
-    env(safe-area-inset-left),
-    env(safe-area-inset-right),
-    clamp(1rem, 5vw, 2rem)
+    0.75rem,
+    env(safe-area-inset-left, 0px),
+    env(safe-area-inset-right, 0px)
   );
 
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.625rem;
-  --radius-xl: 1rem;
+  --radius-sm: 0.25rem; /* 4 */
+  --radius-md: 0.375rem; /* 6 */
+  --radius-lg: 0.625rem; /* 10 nav */
+  --radius-xl: 1rem; /* 16 cards */
   --radius-full: 9999px;
   --border-width: 1px;
 
@@ -106,11 +111,13 @@
   --duration-base: 250ms;
   --duration-slow: 400ms;
 
+  /* Figma hero horizon band (Desktop Blog 19:993) */
   --glow-orange: radial-gradient(
-    ellipse 70% 50% at 50% 48%,
-    rgba(255, 77, 0, 0.65) 0%,
-    rgba(255, 77, 0, 0.22) 32%,
-    transparent 68%
+    ellipse 72% 55% at 50% 50%,
+    rgba(255, 77, 0, 0.95) 0%,
+    rgba(255, 77, 0, 0.55) 28%,
+    rgba(255, 77, 0, 0.18) 52%,
+    transparent 72%
   );
 }
 

@@ -64,15 +64,20 @@ export async function getArticlePageData(
           : Promise.resolve([] as PostCard[]),
       ]);
 
-      let relatedPosts = related ?? [];
-      if (!relatedPosts.length) {
+      const relatedPosts = (related ?? []).slice(0, 3);
+      // Figma shows 3 related cards — pad with recent posts when category overlap is thin.
+      if (relatedPosts.length < 3) {
         const recent = await sanityFetch<PostCard[]>({
           query: postsQuery,
           tags: [CACHE_TAGS.posts],
         });
-        relatedPosts = (recent ?? [])
-          .filter((item) => item.slug !== post.slug)
-          .slice(0, 3);
+        const seen = new Set(relatedPosts.map((item) => item._id));
+        for (const item of recent ?? []) {
+          if (item.slug === post.slug || seen.has(item._id)) continue;
+          relatedPosts.push(item);
+          seen.add(item._id);
+          if (relatedPosts.length >= 3) break;
+        }
       }
 
       return {

@@ -14,17 +14,17 @@ export function FooterWordmark() {
 
     const gsap = getGsap();
     const ctx = gsap.context(() => {
+      // Translate only — never fade out (autoAlpha was hiding the mark).
       gsap.fromTo(
         el,
-        { y: 48, autoAlpha: 0.35 },
+        { y: 40 },
         {
           y: 0,
-          autoAlpha: 1,
           ease: "none",
           scrollTrigger: {
             trigger: el,
             start: "top 95%",
-            end: "bottom 70%",
+            end: "top 60%",
             scrub: true,
           },
         },
@@ -35,13 +35,17 @@ export function FooterWordmark() {
   }, []);
 
   return (
-    <div ref={ref} className="relative mt-16 select-none" aria-hidden>
+    <div
+      ref={ref}
+      className="relative mt-14 select-none md:mt-[4.5rem]"
+      aria-hidden
+    >
       <Image
         src="/brand/basement-wordmark.svg"
         alt=""
         width={1378}
         height={193}
-        className="h-auto w-full opacity-90"
+        className="h-auto w-full opacity-[0.55]"
         priority={false}
       />
     </div>

@@ -35,6 +35,11 @@ export type PostCard = {
   } | null;
   /** Local/demo image path when Sanity asset is absent */
   coverUrl?: string | null;
+  /**
+   * Pre-resolved cover URL for client components.
+   * Set on the server via resolvePostCoverSrc — never build Sanity URLs in the browser.
+   */
+  coverSrc?: string | null;
   categories?: CategoryRef[] | null;
   tags?: TagRef[] | null;
   authors?: AuthorRef[] | null;
