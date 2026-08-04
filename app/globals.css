@@ -79,3 +79,44 @@
     }
   }
 }
+
+@layer utilities {
+  .skeleton-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.08) 45%,
+      rgba(255, 77, 0, 0.12) 50%,
+      rgba(255, 255, 255, 0.08) 55%,
+      transparent 100%
+    );
+    animation: skeleton-shimmer 1.6s ease-in-out infinite;
+  }
+
+  .bg-black\/8 {
+    background-color: rgb(0 0 0 / 0.08);
+  }
+
+  .bg-white\/8 {
+    background-color: rgb(255 255 255 / 0.08);
+  }
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer::after {
+    animation: none;
+    opacity: 0.35;
+    transform: none;
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
