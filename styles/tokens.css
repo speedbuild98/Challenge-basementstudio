@@ -12,8 +12,9 @@
   --color-grey: #8a8a8a;
   --color-light-grey: #c4c4c4;
   --color-dark-grey: #2e2e2e;
-  --color-surface-light: #f5f5f5;
-  /* Figma exact frosts — pair with backdrop-blur in components */
+  /* Figma 19:1159 Knowledge band = Basement White */
+  --color-surface-light: #e6e6e6;
+  /* Figma card fills — pair with backdrop-blur in components */
   --color-card-frost: rgba(252, 252, 252, 0.25);
   --color-card-frost-dark: rgba(58, 58, 58, 0.25);
   /* Figma nav gradient: 74 → 153 */

@@ -22,53 +22,57 @@ export function ArticleHeader({ post }: ArticleHeaderProps) {
 
   return (
     <header className="pt-[2.75rem] md:pt-[6.75rem]">
-      <div className="flex flex-col gap-2">
-        <Link
-          href="/"
-          className="inline-flex min-h-11 items-center font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:text-orange"
-        >
-          ← Go back
-        </Link>
-        <div className="border-t border-white/15" />
-      </div>
+      {/* Desktop gap 60 · Mobile ~12 after divider (158:4873) */}
+      <div className="flex flex-col gap-3 md:gap-[60px]">
+        <div className="flex flex-col gap-2">
+          <Link
+            href="/"
+            className="inline-flex min-h-11 items-center font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-[#e6e6e6] transition-colors hover:text-orange"
+          >
+            ← Go back
+          </Link>
+          <div className="border-t border-white/15" />
+        </div>
 
-      <div className="mt-[3.75rem] flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
-        <Text
-          as="h1"
-          variant="h1"
-          className="max-w-[12ch] text-balance text-white lg:max-w-[304px]"
-        >
-          {post.title}
-        </Text>
+        {/* Mobile: title then intro stacked · Desktop: 304 | 553 justify-between */}
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
+          <Text
+            as="h1"
+            variant="h1"
+            className="max-w-[310px] text-balance text-[#e6e6e6] lg:max-w-[304px]"
+          >
+            {post.title}
+          </Text>
 
-        <div className="flex max-w-[553px] flex-col gap-6">
-          {post.intro ? (
-            <Text variant="h2Regular" className="text-white">
-              {post.intro}
-            </Text>
-          ) : null}
-          {post.excerpt ? (
-            <Text variant="body" className="text-white">
-              {post.excerpt}
-            </Text>
-          ) : null}
+          <div className="flex max-w-[553px] flex-col gap-2 md:gap-6">
+            {post.intro ? (
+              <Text variant="h2Regular" className="text-[#e6e6e6]">
+                {post.intro}
+              </Text>
+            ) : null}
+            {post.excerpt ? (
+              <Text variant="body" className="text-[#e6e6e6]">
+                {post.excerpt}
+              </Text>
+            ) : null}
+          </div>
         </div>
       </div>
 
-      <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:pl-[min(50%,503px)]">
+      <div className="mt-6 flex flex-col gap-4 sm:mt-10 sm:flex-row sm:items-center sm:justify-between lg:pl-[min(50%,503px)]">
         <div className="flex flex-wrap items-center gap-2">
           <Text
             as="time"
             variant="caption"
-            className="text-white"
+            className="text-[#e6e6e6]"
             dateTime={post.publishedAt}
           >
             {formatPostDate(post.publishedAt)}
           </Text>
           {authors ? (
             <>
-              <span className="size-1 bg-muted-foreground" aria-hidden />
-              <Text variant="caption" className="text-white">
+              <span className="size-1 bg-[#c4c4c4]" aria-hidden />
+              <Text variant="caption" className="text-[#e6e6e6]">
                 {authors}
               </Text>
             </>

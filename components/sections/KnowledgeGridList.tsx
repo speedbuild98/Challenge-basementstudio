@@ -31,7 +31,7 @@ export function KnowledgeGridList({ posts }: KnowledgeGridListProps) {
 
   return (
     // Figma: filters→grid 55 desktop / ~31 mobile · row gap 32 / 12
-    <div className="mt-8 md:mt-[3.45rem]">
+    <div className="mt-[1.9375rem] md:mt-[3.45rem]">
       <div className="space-y-3 md:space-y-8">
         {mediaRow.length ? (
           <ul className="grid list-none gap-3 md:grid-cols-3 md:gap-8">
@@ -66,10 +66,10 @@ export function KnowledgeGridList({ posts }: KnowledgeGridListProps) {
 
       {hasMore ? (
         <div className="mt-10 flex justify-center md:mt-24">
+          {/* Figma 19:1192 — Main Button black + #e6e6e6 text */}
           <Button
             type="button"
             variant="contact"
-            className="bg-[#e6e6e6] text-black shadow-none hover:bg-light-grey"
             onClick={() =>
               setVisibleCount((count) =>
                 Math.min(count + PAGE_SIZE, posts.length),

@@ -79,12 +79,18 @@ export function MobileNav({ items, activeHref = "/" }: MobileNavProps) {
       <button
         ref={openerRef}
         type="button"
-        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg bg-black px-3 font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white"
+        className="inline-flex min-h-11 min-w-11 items-center justify-center"
         aria-expanded={open}
         aria-controls={panelId}
+        aria-label="Open menu"
         onClick={() => setOpen(true)}
       >
-        Menu
+        {/* Figma 155:4349 — 40×9.5 hamburger (hit area 44) */}
+        <span className="flex w-10 flex-col gap-[3.5px]" aria-hidden>
+          <span className="h-px w-full bg-[#e6e6e6]" />
+          <span className="h-px w-full bg-[#e6e6e6]" />
+          <span className="h-px w-full bg-[#e6e6e6]" />
+        </span>
       </button>
 
       {open ? (
@@ -143,7 +149,7 @@ export function MobileNav({ items, activeHref = "/" }: MobileNavProps) {
               className="min-h-11"
               onClick={() => setOpen(false)}
             >
-              Contact us
+              Contact Us
             </Button>
           </div>
         </div>

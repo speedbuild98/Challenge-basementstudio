@@ -65,8 +65,8 @@ export function ArticleSkeleton() {
           ))}
 
           <div className="mt-16 flex flex-col gap-6 border-t border-white/10 pt-10 sm:flex-row sm:justify-between">
-            <Skeleton tone="dark" className="h-11 w-40" rounded="sm" />
-            <Skeleton tone="dark" className="h-11 w-40" rounded="sm" />
+            <Skeleton tone="dark" className="h-[21px] w-[83px]" rounded="sm" />
+            <Skeleton tone="dark" className="h-[21px] w-[83px]" rounded="sm" />
           </div>
         </div>
       </Container>
@@ -82,7 +82,7 @@ export function ArticleSkeleton() {
               {Array.from({ length: 3 }).map((_, i) => (
                 <div
                   key={i}
-                  className="rounded-[var(--radius-xl)] border border-white/20 bg-[var(--color-card-frost-dark)] p-4"
+                  className="glass-card-dark rounded-[var(--radius-xl)] p-4"
                 >
                   <Skeleton
                     tone="dark"

@@ -43,7 +43,10 @@ export function KnowledgeGrid({
   const heading = formatKnowledgeTitle(title);
 
   return (
-    <section className="bg-section-light text-section-light-fg">
+    <section
+      id="knowledge"
+      className="scroll-mt-24 bg-section-light text-section-light-fg"
+    >
       <Container className="pb-16 pt-3 md:pb-[4.75rem] md:pt-[3.625rem]">
         <Reveal y={40}>
           <Text
@@ -55,7 +58,8 @@ export function KnowledgeGrid({
           </Text>
         </Reveal>
 
-        <Reveal delay={0.08} y={20} className="mt-[9.75rem] md:mt-[12rem]">
+        {/* Mobile title→filters ~155 · Desktop 192 */}
+        <Reveal delay={0.08} y={20} className="mt-[9.6875rem] md:mt-[12rem]">
           <FilterBar categories={categories} activeSlug={activeCategory} />
         </Reveal>
 

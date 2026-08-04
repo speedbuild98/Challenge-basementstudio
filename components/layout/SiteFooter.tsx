@@ -16,7 +16,7 @@ type SiteFooterProps = {
 
 /**
  * Figma footer 19:1096:
- * columns @ left pitch ~234 · title→links gap 16 · link gap 8
+ * columns start-to-start pitch 234 · title→links gap 16 · link gap 8
  * wordmark full-bleed · copyright + SoDA bottom row
  */
 export function SiteFooter({
@@ -30,8 +30,8 @@ export function SiteFooter({
       {/* Figma Desktop Footer: columns @ y+35 inside 550px frame */}
       <Container className="pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[2.2rem]">
         <Reveal y={24}>
-          {/* Figma: columns clustered left, not stretched across the well */}
-          <div className="flex flex-wrap gap-x-[9.625rem] gap-y-10">
+          {/* 234px pitch tracks — content left-aligned inside each track */}
+          <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-x-0 md:[grid-template-columns:repeat(3,234px)]">
             {columns.map((column) => (
               <FooterColumnView key={column.title} column={column} />
             ))}
@@ -41,11 +41,11 @@ export function SiteFooter({
         <FooterWordmark />
 
         <div className="mt-6 flex flex-col gap-4 sm:mt-8 sm:flex-row sm:items-center sm:justify-between">
-          <Text variant="meta" className="text-muted-foreground">
+          <Text variant="meta" className="text-[#666]">
             © basement.studio LLC {year}. All rights reserved.
           </Text>
           <div className="flex items-center gap-4">
-            <Text variant="meta" className="text-muted-foreground">
+            <Text variant="meta" className="text-[#666]">
               Proud Member of SoDA
             </Text>
             <Image
@@ -64,7 +64,7 @@ export function SiteFooter({
 
 function FooterColumnView({ column }: { column: FooterColumn }) {
   return (
-    <div className="flex min-w-[4.9rem] flex-col gap-4">
+    <div className="flex w-full max-w-[165px] flex-col gap-4">
       <Text variant="meta" className="text-orange">
         {column.title}
       </Text>
@@ -76,7 +76,7 @@ function FooterColumnView({ column }: { column: FooterColumn }) {
             <li key={`${column.title}-${link.label}`}>
               <Link
                 href={link.href}
-                className="inline-flex font-sans text-base font-semibold leading-[1.3] tracking-[var(--tracking-body)] text-white transition-colors hover:text-orange [font-weight:var(--font-weight-semibold)]"
+                className="inline-flex font-sans text-base font-semibold leading-[1.3] tracking-[var(--tracking-body)] text-[#e6e6e6] transition-colors hover:text-orange [font-weight:var(--font-weight-semibold)]"
                 {...(external
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}

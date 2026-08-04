@@ -12,7 +12,11 @@
     "sanity:extract": "sanity schema extract --path=./schema.json",
     "sanity:typegen": "sanity typegen generate",
     "typegen": "npm run sanity:extract && npm run sanity:typegen",
-    "seed:basement": "node --env-file=.env.local scripts/seed-from-basement.mjs"
+    "seed:basement": "node --env-file=.env.local scripts/seed-from-basement.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@portabletext/react": "^7.0.1",
@@ -30,15 +34,28 @@
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "^10.5.6",
+    "@storybook/addon-docs": "^10.5.6",
+    "@storybook/nextjs-vite": "^10.5.6",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4.7.0",
+    "ajv": "^8.17.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
+    "eslint-plugin-storybook": "^10.5.6",
+    "jsdom": "^26.1.0",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "storybook": "^10.5.6",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   }
 }

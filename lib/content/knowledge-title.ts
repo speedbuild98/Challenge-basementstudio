@@ -3,8 +3,13 @@ export const FIGMA_KNOWLEDGE_TITLE = "Knowledge Is Meant\nto Be Shared";
 
 const FIGMA_KNOWLEDGE_FLAT = "Knowledge Is Meant to Be Shared";
 
+/** Normalize CMS/hardcoded titles that may contain real or literal `\n`. */
 export function formatKnowledgeTitle(title: string): string {
-  const trimmed = title.replace(/\r\n/g, "\n").trim();
+  const trimmed = title
+    .replace(/\r\n/g, "\n")
+    .replace(/\\n/g, "\n")
+    .trim();
+
   if (trimmed.includes("\n")) {
     const flat = trimmed.replace(/\n/g, " ").replace(/\s+/g, " ");
     if (flat === FIGMA_KNOWLEDGE_FLAT) return FIGMA_KNOWLEDGE_TITLE;

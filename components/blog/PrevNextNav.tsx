@@ -10,6 +10,17 @@ type PrevNextNavProps = {
   className?: string;
 };
 
+/**
+ * Figma Blog Post 9:703 prev/next (151:586):
+ * buttons bg #666 · px-8 py-4 · radius 4 · mono 14 / 0.9
+ * NEXT fixed 83px · titles mono uppercase · gap 16
+ */
+const navButtonClass =
+  "inline-flex shrink-0 items-end justify-center rounded-[var(--radius-sm)] bg-[#666] px-2 py-1 font-mono text-[length:var(--text-meta)] font-medium uppercase leading-[0.9] tracking-[var(--tracking-meta)] text-[#e6e6e6] transition-colors hover:bg-orange hover:text-black";
+
+const navTitleClass =
+  "min-w-0 truncate font-mono text-[length:var(--text-meta)] font-medium uppercase leading-[1.4] tracking-[var(--tracking-meta)] text-[#e6e6e6] transition-colors hover:text-orange";
+
 export function PrevNextNav({ previous, next, className }: PrevNextNavProps) {
   if (!previous && !next) return null;
 
@@ -17,22 +28,23 @@ export function PrevNextNav({ previous, next, className }: PrevNextNavProps) {
     <nav
       aria-label="Previous and next articles"
       className={cn(
-        "mt-16 flex flex-col gap-6 border-t border-white/10 pt-10 sm:flex-row sm:items-center sm:justify-between",
+        "mt-16 flex flex-col gap-6 border-t border-white/10 pt-10 sm:flex-row sm:items-center sm:justify-between sm:gap-0",
         className,
       )}
     >
-      <div className="flex min-h-10 flex-1 items-center gap-4">
+      {/* Figma 151:586 — prev 468 · next 436 · gap 16 */}
+      <div className="flex min-w-0 items-center gap-4 sm:w-[468px]">
         {previous ? (
           <>
             <Link
               href={ROUTES.post(previous.slug)}
-              className="inline-flex min-h-11 items-center rounded-[var(--radius-sm)] bg-dark-grey px-3 py-2 font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:bg-orange hover:text-black"
+              className={navButtonClass}
             >
               Previous
             </Link>
             <Link
               href={ROUTES.post(previous.slug)}
-              className="inline-flex min-h-11 items-center font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:text-orange"
+              className={navTitleClass}
             >
               {previous.title}
             </Link>
@@ -40,18 +52,18 @@ export function PrevNextNav({ previous, next, className }: PrevNextNavProps) {
         ) : null}
       </div>
 
-      <div className="flex min-h-10 flex-1 items-center justify-start gap-4 sm:justify-end">
+      <div className="flex min-w-0 items-center justify-between gap-4 sm:w-[436px] sm:justify-end">
         {next ? (
           <>
             <Link
               href={ROUTES.post(next.slug)}
-              className="order-2 inline-flex min-h-11 items-center font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:text-orange sm:order-1 sm:text-right"
+              className={cn(navTitleClass, "order-2 text-left sm:order-1 sm:text-right")}
             >
               {next.title}
             </Link>
             <Link
               href={ROUTES.post(next.slug)}
-              className="order-1 inline-flex min-h-11 items-center rounded-[var(--radius-sm)] bg-dark-grey px-3 py-2 font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:bg-orange hover:text-black sm:order-2"
+              className={cn(navButtonClass, "order-1 w-[83px] sm:order-2")}
             >
               Next
             </Link>

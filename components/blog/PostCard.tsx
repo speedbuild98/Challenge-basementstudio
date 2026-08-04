@@ -20,7 +20,7 @@ type PostCardProps = {
 /**
  * Figma Blog Post Small:
  * desktop light media 436×400 p-24 · text 436×250 p-24 · image 137
- * mobile light p-16 · image 110 · gap 16 · related dark p-16
+ * related dark p-16 · no stroke (Figma Glass + noise + shadow)
  * No cover → text layout (no brand/empty placeholder).
  */
 export function PostCard({
@@ -37,10 +37,8 @@ export function PostCard({
   return (
     <article
       className={cn(
-        "flex h-full flex-col justify-between overflow-hidden rounded-2xl border backdrop-blur-xl transition-transform duration-[var(--duration-base)] ease-[var(--ease-out)] hover:-translate-y-1",
-        isDark
-          ? "border-white/20 bg-[var(--color-card-frost-dark)] p-4"
-          : "border-black/[0.06] bg-[var(--color-card-frost)] p-4 md:p-6",
+        "flex h-full flex-col justify-between overflow-hidden rounded-2xl",
+        isDark ? "glass-card-dark p-4" : "glass-card-light p-4 md:p-6",
         !isDark && showImage && "md:min-h-[400px]",
         !isDark && !showImage && "md:min-h-[250px]",
         isDark && showImage && "md:min-h-[400px]",
@@ -61,15 +59,12 @@ export function PostCard({
           />
         ) : null}
 
-        {/* Figma copy stack gap 16 · date #666 13 · title 24/1.1/-3% */}
-        <div className="flex flex-col gap-4">
+        {/* Mobile copy gap 8 · Desktop gap 16 · date #666 · title 24 */}
+        <div className="flex flex-col gap-2 md:gap-4">
           <Text
             as="time"
             variant="caption"
-            className={cn(
-              "leading-none",
-              isDark ? "text-muted-foreground" : "text-[#666]",
-            )}
+            className="leading-none text-[#666]"
             dateTime={post.publishedAt}
           >
             {formatPostDate(post.publishedAt)}
@@ -78,8 +73,12 @@ export function PostCard({
             as="h3"
             variant="h2"
             className={cn(
-              "line-clamp-2 tracking-[var(--tracking-h2)]",
-              isDark ? "text-white" : "text-black",
+              "line-clamp-2",
+              // Media: leading 1.1 / -3% · Text-only desktop: leading 28px / -2%
+              showImage
+                ? "leading-[1.1] tracking-[var(--tracking-h2)]"
+                : "leading-[1.1] tracking-[var(--tracking-h2)] md:leading-7 md:tracking-[-0.02em]",
+              isDark ? "text-[#e6e6e6]" : "text-black",
             )}
           >
             <Link
@@ -105,7 +104,8 @@ export function PostCard({
         </div>
       </div>
 
-      <div className="mt-auto pt-6">
+      {/* Mobile gap 32 to CTA · Desktop justify-between + pt-24 */}
+      <div className="mt-auto pt-8 md:pt-6">
         <Button href={href} variant={isDark ? "accent" : "secondary"}>
           Read more
         </Button>

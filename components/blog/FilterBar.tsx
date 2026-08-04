@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ROUTES } from "@/lib/constants";
 import { cn } from "@/lib/utils/cn";
 import type { CategoryRef } from "@/types/content";
 
@@ -19,7 +20,7 @@ export function FilterBar({
       {/* Figma Desktop: gap 40 · Mobile: gap 24 */}
       <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 md:gap-x-10">
         <li>
-          <FilterLink href="/" active={!activeSlug}>
+          <FilterLink href={ROUTES.journal} active={!activeSlug}>
             All posts
           </FilterLink>
         </li>

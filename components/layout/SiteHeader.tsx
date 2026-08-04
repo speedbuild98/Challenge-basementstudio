@@ -25,13 +25,14 @@ export function SiteHeader({
       <Container>
         <div
           className={cn(
-            "flex h-10 items-center justify-between rounded-[10px] py-2 pl-4 pr-2 md:h-[50px]",
-            "border border-white/10 bg-gradient-to-r from-[var(--color-nav-from)] to-[var(--color-nav-to)] backdrop-blur-md",
+            // Mobile 155:4349 — h-40 pl-8 pr-16 · Desktop 19:997 — h-50 pl-16 pr-7.5
+            "flex h-10 items-center justify-between rounded-[10px] py-2 pl-2 pr-4 md:h-[50px] md:pl-4 md:pr-[7.5px]",
+            "bg-gradient-to-r from-[var(--color-nav-to)] to-[var(--color-nav-from)] backdrop-blur-md md:from-[var(--color-nav-from)] md:to-[var(--color-nav-to)]",
           )}
         >
           <Link
             href="/"
-            className="relative block h-9 w-[100px] shrink-0 focus-visible:outline-offset-4 md:h-[46px] md:w-[123px]"
+            className="relative block h-[46px] w-[123px] shrink-0 scale-[0.82] origin-left focus-visible:outline-offset-4 md:scale-100"
             aria-label="basement. home"
           >
             <Image
@@ -78,7 +79,7 @@ export function SiteHeader({
           <div className="flex items-center gap-2">
             <Magnetic strength={12} className="hidden sm:inline-flex">
               <Button href="#contact" variant="contact">
-                Contact us
+                Contact Us
               </Button>
             </Magnetic>
             <MobileNav items={items} activeHref={activeHref} />

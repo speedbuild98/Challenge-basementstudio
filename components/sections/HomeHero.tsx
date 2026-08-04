@@ -21,7 +21,7 @@ export function HomeHero({ title, eyebrow, featured }: HomeHeroProps) {
   const heroTitle = formatHeroTitle(title);
 
   return (
-    <section className="relative overflow-hidden pb-[6.3rem] pt-3 md:pb-[17.875rem] md:pt-[6.125rem]">
+    <section className="relative overflow-hidden pb-[6.3125rem] pt-3 md:pb-[17.875rem] md:pt-[6.125rem]">
       <AnimatedGlow />
       <Container className="relative z-10">
         <HeroIntro>
@@ -37,7 +37,7 @@ export function HomeHero({ title, eyebrow, featured }: HomeHeroProps) {
           <Text
             as="h1"
             variant="display"
-            className="max-w-[13.9em] whitespace-pre-line text-white"
+            className="max-w-[13.9em] whitespace-pre-line text-[#e6e6e6]"
             data-hero-title
           >
             {heroTitle}

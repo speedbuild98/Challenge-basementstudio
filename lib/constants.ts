@@ -2,6 +2,8 @@ export const SITE_NAME = "basement.studio";
 
 export const ROUTES = {
   home: "/",
+  /** Homepage Knowledge grid (filters / All posts). */
+  journal: "/#knowledge",
   studio: "/studio",
   post: (slug: string) => `/blog/${slug}`,
   category: (slug: string) => `/category/${slug}`,

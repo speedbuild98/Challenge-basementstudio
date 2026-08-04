@@ -13,7 +13,7 @@ export function PostCardSkeleton({
   return (
     <div
       className={cn(
-        "flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-black/10 bg-[var(--color-card-frost)] p-4 backdrop-blur-xl md:p-6",
+        "glass-card-light flex h-full flex-col justify-between overflow-hidden rounded-2xl p-4 md:p-6",
         variant === "media" ? "md:min-h-[400px]" : "md:min-h-[250px]",
         className,
       )}
