@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import type { SanityImageSource } from "@sanity/image-url";
+import { useState } from "react";
 
 import { urlForImage } from "@/lib/sanity/image";
 import { cn } from "@/lib/utils/cn";
@@ -14,11 +17,7 @@ type PostImageProps = {
   height?: number;
 };
 
-function resolveSrc(
-  post: PostCard,
-  width: number,
-  height: number,
-) {
+function resolveSrc(post: PostCard, width: number, height: number) {
   if (post.coverUrl) return post.coverUrl;
   if (post.coverImage?.asset) {
     try {
@@ -34,6 +33,26 @@ function resolveSrc(
   return null;
 }
 
+function BrandPlaceholder({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        "flex size-full items-center justify-center bg-black",
+        className,
+      )}
+      aria-hidden
+    >
+      <Image
+        src="/brand/basement-logo.svg"
+        alt=""
+        width={123}
+        height={46}
+        className="h-6 w-auto opacity-90 md:h-7"
+      />
+    </div>
+  );
+}
+
 export function PostImage({
   post,
   className,
@@ -43,20 +62,26 @@ export function PostImage({
   height = 675,
 }: PostImageProps) {
   const src = resolveSrc(post, width, height);
+  const [failed, setFailed] = useState(false);
   const alt = post.coverImage?.alt || post.title;
 
-  if (!src) {
-    return <div className={cn("bg-dark-grey size-full", className)} aria-hidden />;
+  if (!src || failed) {
+    return <BrandPlaceholder className={className} />;
   }
 
   return (
-    <Image
-      src={src}
-      alt={alt}
-      fill
-      sizes={sizes}
-      priority={priority}
-      className={cn("object-cover", className)}
-    />
+    <>
+      {/* Fallback under the image if remote asset paints blank/fails */}
+      <BrandPlaceholder className={cn("absolute inset-0", className)} />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes={sizes}
+        priority={priority}
+        className={cn("object-cover", className)}
+        onError={() => setFailed(true)}
+      />
+    </>
   );
 }

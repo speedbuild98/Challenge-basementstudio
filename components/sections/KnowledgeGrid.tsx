@@ -31,18 +31,10 @@ export function KnowledgeGrid({
   emptyMessage = "No posts published yet.",
 }: KnowledgeGridProps) {
   const unique = uniqueById(posts);
-  const withMedia = unique.filter((post) => post.coverUrl || post.coverImage);
-  const withoutMedia = unique.filter(
-    (post) => !post.coverUrl && !post.coverImage,
-  );
-
-  const mediaRow = withMedia.slice(0, 3);
+  // Always prefer a media row so missing covers still show the brand placeholder.
+  const mediaRow = unique.slice(0, 3);
   const mediaIds = new Set(mediaRow.map((post) => post._id));
-  const textCandidates = [
-    ...withoutMedia,
-    ...unique.filter((post) => !mediaIds.has(post._id)),
-  ];
-  const textRow = uniqueById(textCandidates).slice(0, 3);
+  const textRow = unique.filter((post) => !mediaIds.has(post._id)).slice(0, 3);
 
   return (
     <section className="bg-section-light text-section-light-fg">
