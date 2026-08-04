@@ -27,7 +27,7 @@ function uniqueById(posts: PostCardType[]) {
 /**
  * Figma Desktop Blog 19:993 (light band):
  * pt 58 · title 755 · title→filters 192 · filters gap 40 · filters→grid 55 · grid gap 32
- * Mobile 155:4213: pt ~13 · title→filters ~155 · filters→grid ~31 · grid gap 12
+ * Mobile 155:4213: pt ~13 · title→filters ~155 · filters→grid ~11 · grid gap 12
  */
 export function KnowledgeGrid({
   title,
@@ -52,7 +52,7 @@ export function KnowledgeGrid({
           <Text
             as="h2"
             variant="display"
-            className="max-w-[755px] whitespace-pre-line text-black"
+            className="max-w-[14.4rem] whitespace-pre-line text-black md:max-w-[755px]"
           >
             {heading}
           </Text>

@@ -40,6 +40,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="color-scheme-dark">
+      <head>
+        <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${geistSans.className} min-h-dvh antialiased`}
       >

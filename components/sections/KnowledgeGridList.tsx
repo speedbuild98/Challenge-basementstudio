@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { PostCard } from "@/components/blog/PostCard";
+import { Stagger } from "@/components/motion/Stagger";
 import { Button } from "@/components/ui/Button";
 import type { PostCard as PostCardType } from "@/types/content";
 
@@ -30,13 +31,13 @@ export function KnowledgeGridList({ posts }: KnowledgeGridListProps) {
   const extra = visible.slice(6);
 
   return (
-    // Figma: filters→grid 55 desktop / ~31 mobile · row gap 32 / 12
-    <div className="mt-[1.9375rem] md:mt-[3.45rem]">
-      <div className="space-y-3 md:space-y-8">
+    // Mobile 158:5096 — filters→grid ~11 · card gap 12 · Desktop gap 32 / filters→grid 55
+    <div className="mt-3 md:mt-[3.45rem]">
+      <Stagger className="space-y-3 md:space-y-8" y={28} stagger={0.06}>
         {mediaRow.length ? (
           <ul className="grid list-none gap-3 md:grid-cols-3 md:gap-8">
             {mediaRow.map((post) => (
-              <li key={post._id} className="min-w-0">
+              <li key={post._id} data-stagger-item className="min-w-0">
                 <PostCard post={post} variant="media" />
               </li>
             ))}
@@ -46,7 +47,7 @@ export function KnowledgeGridList({ posts }: KnowledgeGridListProps) {
         {textRow.length ? (
           <ul className="grid list-none gap-3 md:grid-cols-3 md:gap-8">
             {textRow.map((post) => (
-              <li key={post._id} className="min-w-0">
+              <li key={post._id} data-stagger-item className="min-w-0">
                 <PostCard post={post} variant="text" />
               </li>
             ))}
@@ -56,17 +57,17 @@ export function KnowledgeGridList({ posts }: KnowledgeGridListProps) {
         {extra.length ? (
           <ul className="grid list-none gap-3 md:grid-cols-3 md:gap-8">
             {extra.map((post) => (
-              <li key={post._id} className="min-w-0">
+              <li key={post._id} data-stagger-item className="min-w-0">
                 <PostCard post={post} variant="media" />
               </li>
             ))}
           </ul>
         ) : null}
-      </div>
+      </Stagger>
 
       {hasMore ? (
         <div className="mt-10 flex justify-center md:mt-24">
-          {/* Figma 19:1192 — Main Button black + #e6e6e6 text */}
+          {/* Mobile 158:4525 / Desktop 19:1192 — Main Button black */}
           <Button
             type="button"
             variant="contact"

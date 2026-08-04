@@ -12,8 +12,8 @@ type ArticleHeaderProps = {
 };
 
 /**
- * Figma Blog Post 9:703 / Mobile 158:4873:
- * go-back @181 desktop / @96 mobile · stack gap 60 · cover 1372×472
+ * Desktop Blog Post 9:703 — go-back · gap 60 · title 38 | intro 24 · cover 1372×472
+ * Mobile 158:4873 — go-back@96 · title 40/0.9/-4% · intro 20 · excerpt 14 · cover 366×126
  */
 export function ArticleHeader({ post }: ArticleHeaderProps) {
   const authors =
@@ -22,31 +22,31 @@ export function ArticleHeader({ post }: ArticleHeaderProps) {
 
   return (
     <header className="pt-[2.75rem] md:pt-[6.75rem]">
-      {/* Desktop gap 60 · Mobile ~12 after divider (158:4873) */}
       <div className="flex flex-col gap-3 md:gap-[60px]">
         <div className="flex flex-col gap-2">
           <Link
             href="/"
-            className="inline-flex min-h-11 items-center font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-[#e6e6e6] transition-colors hover:text-orange"
+            className="inline-flex items-center py-1 font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-[#e6e6e6] transition-colors hover:text-orange"
           >
             ← Go back
           </Link>
           <div className="border-t border-white/15" />
         </div>
 
-        {/* Mobile: title then intro stacked · Desktop: 304 | 553 justify-between */}
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
+        {/* Mobile: title → ~101px → intro stack · Desktop: 304 | 553 */}
+        <div className="flex flex-col gap-[6.375rem] lg:flex-row lg:items-start lg:justify-between lg:gap-8">
           <Text
             as="h1"
-            variant="h1"
-            className="max-w-[310px] text-balance text-[#e6e6e6] lg:max-w-[304px]"
+            className="max-w-[19.4rem] text-balance font-sans font-semibold tracking-[var(--tracking-display)] text-[#e6e6e6] [font-size:var(--text-display)] [font-weight:var(--font-weight-semibold)] [line-height:var(--leading-display)] lg:max-w-[304px] lg:tracking-[var(--tracking-h1)] lg:[font-size:var(--text-h1)] lg:[line-height:var(--leading-h1)]"
           >
             {post.title}
           </Text>
 
           <div className="flex max-w-[553px] flex-col gap-2 md:gap-6">
             {post.intro ? (
-              <Text variant="h2Regular" className="text-[#e6e6e6]">
+              <Text
+                className="font-sans font-normal tracking-[var(--tracking-h2)] text-[#e6e6e6] [font-size:1.25rem] [font-weight:var(--font-weight-regular)] [line-height:1.1] md:tracking-[var(--tracking-h2)] md:[font-size:var(--text-h2)] md:[line-height:var(--leading-h2)]"
+              >
                 {post.intro}
               </Text>
             ) : null}

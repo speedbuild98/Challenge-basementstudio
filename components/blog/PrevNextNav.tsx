@@ -11,15 +11,15 @@ type PrevNextNavProps = {
 };
 
 /**
- * Figma Blog Post 9:703 prev/next (151:586):
- * buttons bg #666 · px-8 py-4 · radius 4 · mono 14 / 0.9
- * NEXT fixed 83px · titles mono uppercase · gap 16
+ * Desktop 151:586 — one row: [Previous + title] | [title + Next], gap 16, heights 21.
+ * Mobile 158:5059 — one row: Previous left · Next right · no titles.
+ * Buttons: bg #666 · px-8 py-4 · radius 4 · mono 14 / 0.9 · text #e6e6e6
  */
 const navButtonClass =
-  "inline-flex shrink-0 items-end justify-center rounded-[var(--radius-sm)] bg-[#666] px-2 py-1 font-mono text-[length:var(--text-meta)] font-medium uppercase leading-[0.9] tracking-[var(--tracking-meta)] text-[#e6e6e6] transition-colors hover:bg-orange hover:text-black";
+  "inline-flex h-[21px] shrink-0 items-end justify-center rounded-[var(--radius-sm)] bg-[#666] px-2 py-1 font-mono text-[length:var(--text-meta)] font-medium uppercase leading-[0.9] tracking-[var(--tracking-meta)] text-[#e6e6e6] transition-[background-color,color,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] hover:bg-orange hover:text-black hover:-translate-y-px active:scale-[0.97]";
 
 const navTitleClass =
-  "min-w-0 truncate font-mono text-[length:var(--text-meta)] font-medium uppercase leading-[1.4] tracking-[var(--tracking-meta)] text-[#e6e6e6] transition-colors hover:text-orange";
+  "min-w-0 truncate font-mono text-[length:var(--text-meta)] font-medium uppercase leading-[1.4] tracking-[var(--tracking-meta)] text-[#e6e6e6] transition-colors duration-[var(--duration-base)] ease-[var(--ease-out)] hover:text-orange";
 
 export function PrevNextNav({ previous, next, className }: PrevNextNavProps) {
   if (!previous && !next) return null;
@@ -27,24 +27,23 @@ export function PrevNextNav({ previous, next, className }: PrevNextNavProps) {
   return (
     <nav
       aria-label="Previous and next articles"
-      className={cn(
-        "mt-16 flex flex-col gap-6 border-t border-white/10 pt-10 sm:flex-row sm:items-center sm:justify-between sm:gap-0",
-        className,
-      )}
+      className={cn("flex h-[21px] items-center justify-between gap-4", className)}
     >
-      {/* Figma 151:586 — prev 468 · next 436 · gap 16 */}
-      <div className="flex min-w-0 items-center gap-4 sm:w-[468px]">
+      <div className="flex min-w-0 items-center gap-4 md:w-[468px]">
         {previous ? (
           <>
             <Link
               href={ROUTES.post(previous.slug)}
               className={navButtonClass}
+              aria-label={`Previous: ${previous.title}`}
             >
               Previous
             </Link>
             <Link
               href={ROUTES.post(previous.slug)}
-              className={navTitleClass}
+              className={cn(navTitleClass, "hidden md:inline")}
+              tabIndex={-1}
+              aria-hidden
             >
               {previous.title}
             </Link>
@@ -52,18 +51,21 @@ export function PrevNextNav({ previous, next, className }: PrevNextNavProps) {
         ) : null}
       </div>
 
-      <div className="flex min-w-0 items-center justify-between gap-4 sm:w-[436px] sm:justify-end">
+      <div className="flex min-w-0 items-center justify-end gap-4 md:w-[436px]">
         {next ? (
           <>
             <Link
               href={ROUTES.post(next.slug)}
-              className={cn(navTitleClass, "order-2 text-left sm:order-1 sm:text-right")}
+              className={cn(navTitleClass, "hidden text-right md:inline")}
+              tabIndex={-1}
+              aria-hidden
             >
               {next.title}
             </Link>
             <Link
               href={ROUTES.post(next.slug)}
-              className={cn(navButtonClass, "order-1 w-[83px] sm:order-2")}
+              className={cn(navButtonClass, "w-[83px]")}
+              aria-label={`Next: ${next.title}`}
             >
               Next
             </Link>

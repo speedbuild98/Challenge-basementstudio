@@ -40,12 +40,12 @@ export function HomeSkeleton() {
             <Skeleton tone="light" className="h-[clamp(2.5rem,10vw,4.75rem)] w-5/6" />
           </div>
 
-          <div className="mt-[9.75rem] flex flex-wrap gap-x-6 gap-y-2 md:mt-[12rem] md:gap-x-10">
+          <div className="mt-[9.75rem] flex flex-nowrap gap-x-6 overflow-x-auto md:mt-[12rem] md:flex-wrap md:gap-x-10 md:overflow-visible">
             {Array.from({ length: 5 }).map((_, i) => (
               <Skeleton
                 key={i}
                 tone="light"
-                className="h-5 w-24 md:h-5"
+                className="h-5 w-24 shrink-0 md:h-5"
                 rounded="sm"
               />
             ))}

@@ -106,7 +106,11 @@ export function PostCard({
 
       {/* Mobile gap 32 to CTA · Desktop justify-between + pt-24 */}
       <div className="mt-auto pt-8 md:pt-6">
-        <Button href={href} variant={isDark ? "accent" : "secondary"}>
+        <Button
+          href={href}
+          variant={isDark ? "accent" : "secondary"}
+          aria-label={`Read more: ${post.title}`}
+        >
           Read more
         </Button>
       </div>

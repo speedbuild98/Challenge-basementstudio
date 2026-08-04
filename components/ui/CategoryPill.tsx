@@ -21,8 +21,9 @@ export function CategoryPill({
   className,
 }: CategoryPillProps) {
   const classes = cn(
-    "inline-flex w-fit max-w-full shrink-0 items-center justify-center px-0.5 font-sans text-[length:var(--text-caption)] font-semibold leading-none tracking-[var(--tracking-caption)] [font-weight:var(--font-weight-semibold)]",
-    tone === "light" && "bg-[#e6e6e6] text-[#c4c4c4]",
+    // min-h-6 (≥24px) satisfies mobile touch target; visual chip stays compact via px
+    "inline-flex min-h-6 w-fit max-w-full shrink-0 items-center justify-center px-1.5 font-sans text-[length:var(--text-caption)] font-semibold leading-none tracking-[var(--tracking-caption)] [font-weight:var(--font-weight-semibold)]",
+    tone === "light" && "bg-[#e6e6e6] text-[#6b6b6b]",
     tone === "dark" && "bg-[#2e2e2e] text-[#c4c4c4]",
     className,
   );

@@ -15,6 +15,8 @@ describe("RelatedPosts", () => {
     expect(
       screen.getByRole("heading", { level: 2, name: /Related Posts/i }),
     ).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: "Read more" })).toHaveLength(3);
+    expect(
+      screen.getAllByRole("link", { name: /Read more:/i }),
+    ).toHaveLength(3);
   });
 });

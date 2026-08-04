@@ -21,14 +21,15 @@ export function HomeHero({ title, eyebrow, featured }: HomeHeroProps) {
   const heroTitle = formatHeroTitle(title);
 
   return (
-    <section className="relative overflow-hidden pb-[6.3125rem] pt-3 md:pb-[17.875rem] md:pt-[6.125rem]">
+    /* Mobile 155:4213 — title@63 (~11 below nav) · featured@307 (+100) · light@768 (+101) */
+    <section className="relative overflow-hidden pb-[6.3rem] pt-[0.7rem] md:pb-[17.875rem] md:pt-[6.125rem]">
       <AnimatedGlow />
       <Container className="relative z-10">
         <HeroIntro>
           {eyebrow ? (
             <Text
               variant="meta"
-              className="mb-4 text-orange"
+              className="mb-3 text-orange md:mb-4"
               data-hero-meta
             >
               {eyebrow}
@@ -37,7 +38,7 @@ export function HomeHero({ title, eyebrow, featured }: HomeHeroProps) {
           <Text
             as="h1"
             variant="display"
-            className="max-w-[13.9em] whitespace-pre-line text-[#e6e6e6]"
+            className="max-w-[22.4rem] whitespace-pre-line text-[#e6e6e6] md:max-w-[13.9em]"
             data-hero-title
           >
             {heroTitle}

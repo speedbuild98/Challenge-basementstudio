@@ -18,10 +18,9 @@ describe("PostCard", () => {
       "href",
       "/category/design",
     );
-    expect(screen.getByRole("link", { name: "Read more" })).toHaveAttribute(
-      "href",
-      `/blog/${mockPost.slug}`,
-    );
+    expect(
+      screen.getByRole("link", { name: `Read more: ${mockPost.title}` }),
+    ).toHaveAttribute("href", `/blog/${mockPost.slug}`);
   });
 
   it("uses dark glass card styles for related tone", () => {

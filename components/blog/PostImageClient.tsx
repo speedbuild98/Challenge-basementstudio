@@ -63,7 +63,9 @@ export function PostImageClient({
       fill
       sizes={sizes}
       priority={priority}
-      className={cn("object-cover", className)}
+      fetchPriority={priority ? "high" : "auto"}
+      decoding={priority ? "sync" : "async"}
+      className={cn("object-cover will-change-transform", className)}
       onError={() => setFailed(true)}
     />
   );

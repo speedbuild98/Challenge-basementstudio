@@ -21,6 +21,7 @@ export function SiteHeader({
   const items = navigation?.length ? navigation : demoNav;
 
   return (
+    /* Mobile nav @12,12 · 366×40 · Desktop @274,23 */
     <header className="relative z-20 pt-3 md:pt-[23px]">
       <Container>
         <div
@@ -32,7 +33,7 @@ export function SiteHeader({
         >
           <Link
             href="/"
-            className="relative block h-[46px] w-[123px] shrink-0 scale-[0.82] origin-left focus-visible:outline-offset-4 md:scale-100"
+            className="relative block h-9 w-[102px] shrink-0 focus-visible:outline-offset-4 md:h-[46px] md:w-[123px]"
             aria-label="basement. home"
           >
             <Image
@@ -55,10 +56,10 @@ export function SiteHeader({
                     <Link
                       href={item.href}
                       className={cn(
-                        "inline-flex items-center px-4 py-2 font-sans text-base font-semibold leading-[1.3] tracking-[var(--tracking-body)] [font-weight:var(--font-weight-semibold)] transition-colors duration-[var(--duration-fast)]",
+                        "inline-flex items-center px-4 py-2 font-sans text-base font-semibold leading-[1.3] tracking-[var(--tracking-body)] [font-weight:var(--font-weight-semibold)] transition-[color,transform] duration-[var(--duration-base)] ease-[var(--ease-out)]",
                         active
                           ? "text-orange"
-                          : "text-white hover:text-orange",
+                          : "text-white hover:-translate-y-px hover:text-orange",
                       )}
                       aria-current={active ? "page" : undefined}
                       {...(item.href.startsWith("http")
@@ -77,7 +78,8 @@ export function SiteHeader({
           </nav>
 
           <div className="flex items-center gap-2">
-            <Magnetic strength={12} className="hidden sm:inline-flex">
+            {/* Figma Mobile Nav = logo + hamburger only; Contact lives on desktop bar */}
+            <Magnetic strength={12} className="hidden lg:inline-flex">
               <Button href="#contact" variant="contact">
                 Contact Us
               </Button>

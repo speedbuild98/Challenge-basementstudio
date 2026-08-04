@@ -17,7 +17,7 @@ type FeaturedPostProps = {
 
 /**
  * Desktop Figma 19:1008 — 902×394 · pl-16 pr-8 py-8 · gap 48 · image 483×360.
- * Mobile Figma 155:4364 — 366×360 · p-16 · image 110 · stack · title 24 · no stroke (Glass).
+ * Mobile Figma 155:4364 — 366×360 · p-16 · gap 16 · image 110 · title 24 · Secondary CTA.
  */
 export function FeaturedPost({ post, className }: FeaturedPostProps) {
   const href = ROUTES.post(post.slug);
@@ -26,14 +26,14 @@ export function FeaturedPost({ post, className }: FeaturedPostProps) {
     <article
       className={cn(
         "glass-card-dark flex w-full max-w-[902px] flex-col justify-between overflow-hidden",
-        "rounded-[11.424px] p-4 md:h-[394px] md:rounded-2xl md:p-0 md:py-2 md:pl-4 md:pr-2",
+        "h-[360px] rounded-[11.424px] p-4 md:h-[394px] md:rounded-2xl md:p-0 md:py-2 md:pl-4 md:pr-2",
         className,
       )}
     >
-      <div className="flex flex-col gap-4 md:h-full md:flex-row md:items-center md:gap-12">
+      <div className="flex min-h-0 flex-1 flex-col gap-4 md:h-full md:flex-row md:items-center md:gap-12">
         <Link
           href={href}
-          className="relative h-[110px] w-full shrink-0 overflow-hidden rounded-md md:h-[360px] md:w-[483px]"
+          className="group/featured relative h-[110px] w-full shrink-0 overflow-hidden rounded-md md:h-[360px] md:w-[483px]"
           tabIndex={-1}
           aria-hidden
         >
@@ -42,13 +42,14 @@ export function FeaturedPost({ post, className }: FeaturedPostProps) {
             priority
             width={483}
             height={360}
-            sizes="(max-width: 768px) 100vw, 483px"
+            sizes="(max-width: 768px) 366px, 483px"
+            className="transition-transform duration-[var(--duration-slow)] ease-[var(--ease-out)] group-hover/featured:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover/featured:scale-100"
           />
         </Link>
 
-        <div className="flex w-full min-w-0 flex-1 flex-col md:h-[360px] md:max-w-[325px] md:flex-none md:justify-center md:gap-6">
+        <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col md:h-[360px] md:max-w-[325px] md:flex-none md:justify-center md:gap-6">
           {/* Mobile copy gap 8 · Desktop stack gap 16 */}
-          <div className="flex flex-col gap-2 md:gap-4">
+          <div className="flex min-h-0 flex-col gap-2 md:gap-4">
             <Text
               as="time"
               variant="caption"
@@ -76,7 +77,7 @@ export function FeaturedPost({ post, className }: FeaturedPostProps) {
               </Link>
             </Text>
             {post.categories?.length ? (
-              <ul className="flex flex-wrap gap-1 md:gap-1">
+              <ul className="flex flex-wrap gap-1">
                 {post.categories.map((category) => (
                   <li key={category._id}>
                     <CategoryPill
@@ -91,14 +92,14 @@ export function FeaturedPost({ post, className }: FeaturedPostProps) {
             {post.excerpt ? (
               <Text
                 variant="body"
-                className="line-clamp-3 text-[#c4c4c4]"
+                className="line-clamp-2 text-[#c4c4c4] md:line-clamp-3"
               >
                 {post.excerpt}
               </Text>
             ) : null}
           </div>
 
-          <Magnetic strength={14} className="mt-4 inline-flex w-fit md:mt-0">
+          <Magnetic strength={14} className="mt-auto inline-flex w-fit pt-2 md:mt-0 md:pt-0">
             <Button href={href} variant="accent">
               Read full blog post
             </Button>

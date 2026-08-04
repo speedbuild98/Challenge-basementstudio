@@ -5,6 +5,11 @@ import { useLayoutEffect, useRef } from "react";
 
 import { getGsap, prefersReducedMotion } from "@/lib/gsap";
 
+/**
+ * Figma wordmark:
+ * Mobile 158:4664 — ~414×58, bleed -3px, gradient #000→#434343 + progressive blur
+ * Desktop 19:1096 — ~1378×193
+ */
 export function FooterWordmark() {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -14,18 +19,18 @@ export function FooterWordmark() {
 
     const gsap = getGsap();
     const ctx = gsap.context(() => {
-      // Translate only — never fade out (autoAlpha was hiding the mark).
       gsap.fromTo(
         el,
-        { y: 40 },
+        { y: 56, autoAlpha: 0.35 },
         {
           y: 0,
+          autoAlpha: 1,
           ease: "none",
           scrollTrigger: {
             trigger: el,
-            start: "top 95%",
-            end: "top 60%",
-            scrub: true,
+            start: "top 98%",
+            end: "top 55%",
+            scrub: 0.6,
           },
         },
       );
@@ -37,7 +42,7 @@ export function FooterWordmark() {
   return (
     <div
       ref={ref}
-      className="relative mt-14 select-none md:mt-[4.5rem]"
+      className="pointer-events-none absolute inset-x-0 top-0 select-none md:relative md:inset-auto"
       aria-hidden
     >
       <Image
@@ -45,7 +50,7 @@ export function FooterWordmark() {
         alt=""
         width={1378}
         height={193}
-        className="h-auto w-full opacity-[0.55]"
+        className="h-[58px] w-[106%] max-w-none -translate-x-[1%] object-fill md:h-auto md:w-full md:max-w-full md:translate-x-0 md:object-contain"
         priority={false}
       />
     </div>

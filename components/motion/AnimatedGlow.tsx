@@ -4,13 +4,14 @@ import { useLayoutEffect, useRef } from "react";
 
 import { OrangeGlow } from "@/components/layout/OrangeGlow";
 import { getGsap, prefersReducedMotion } from "@/lib/gsap";
+import { MOTION } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 type AnimatedGlowProps = {
   className?: string;
 };
 
-/** Full-bleed glow layer — must stay `absolute inset-0` so GSAP scale has a real box. */
+/** Full-bleed glow — slow organic drift (scale + slight translate + opacity). */
 export function AnimatedGlow({ className }: AnimatedGlowProps) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -21,12 +22,25 @@ export function AnimatedGlow({ className }: AnimatedGlowProps) {
     const gsap = getGsap();
     const ctx = gsap.context(() => {
       gsap.to(el, {
-        scale: 1.04,
-        opacity: 0.92,
-        duration: 5,
-        ease: "sine.inOut",
-        yoyo: true,
+        keyframes: [
+          {
+            scale: 1.055,
+            xPercent: 1.4,
+            yPercent: -1.8,
+            opacity: 0.88,
+            duration: 6.2,
+          },
+          {
+            scale: 1.02,
+            xPercent: -1.1,
+            yPercent: 1.2,
+            opacity: 1,
+            duration: 5.8,
+          },
+        ],
+        ease: MOTION.easeInOut,
         repeat: -1,
+        yoyo: true,
       });
     }, el);
 

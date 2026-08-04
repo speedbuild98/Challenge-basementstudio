@@ -25,7 +25,7 @@ export function PostCardMedia({
   return (
     <Link
       href={href}
-      className="relative block h-[110px] w-full overflow-hidden rounded-md md:h-[137px]"
+      className="group/media relative block h-[110px] w-full overflow-hidden rounded-md md:h-[137px]"
       tabIndex={-1}
       aria-hidden
     >
@@ -34,7 +34,7 @@ export function PostCardMedia({
         alt={alt}
         fill
         sizes={sizes}
-        className="object-cover"
+        className="object-cover transition-transform duration-[var(--duration-slow)] ease-[var(--ease-out)] group-hover/media:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover/media:scale-100"
         onError={() => setFailed(true)}
       />
     </Link>

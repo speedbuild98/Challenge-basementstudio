@@ -42,7 +42,7 @@ type ButtonAsLink = CommonProps & {
 export type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const baseClass =
-  "inline-flex justify-center font-mono text-[length:var(--text-meta)] font-medium uppercase leading-[0.9] tracking-[var(--tracking-meta)] whitespace-nowrap [font-weight:var(--font-weight-medium)] transition-[filter,background-color,color] duration-[var(--duration-fast)] ease-[var(--ease-out)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2";
+  "inline-flex justify-center font-mono text-[length:var(--text-meta)] font-medium uppercase leading-[0.9] tracking-[var(--tracking-meta)] whitespace-nowrap [font-weight:var(--font-weight-medium)] transition-[filter,background-color,color,transform,box-shadow] duration-[var(--duration-base)] ease-[var(--ease-out)] active:scale-[0.97] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none motion-reduce:active:scale-100";
 
 export function Button(props: ButtonProps) {
   const classes = cn(

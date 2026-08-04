@@ -6,7 +6,7 @@ export function FeaturedPostSkeleton({ className }: { className?: string }) {
     <div
       className={cn(
         "glass-card-dark flex w-full max-w-[902px] flex-col justify-between overflow-hidden",
-        "rounded-[11.424px] p-4 md:h-[394px] md:rounded-2xl md:p-0 md:py-2 md:pl-4 md:pr-2",
+        "h-[360px] rounded-[11.424px] p-4 md:h-[394px] md:rounded-2xl md:p-0 md:py-2 md:pl-4 md:pr-2",
         className,
       )}
     >

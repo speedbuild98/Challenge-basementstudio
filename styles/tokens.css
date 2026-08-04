@@ -55,7 +55,7 @@
   --text-caption: 0.8125rem; /* 13 */
   --text-footer: 0.75rem; /* 12 mobile footer */
 
-  --leading-display: 0.9;
+  --leading-display: 0.9; /* Figma display 40/76 @ 90% */
   --leading-h1: 0.95;
   --leading-h2: 1.1;
   --leading-body: 1.3;
@@ -107,10 +107,14 @@
   --radius-full: 9999px;
   --border-width: 1px;
 
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --duration-fast: 150ms;
-  --duration-base: 250ms;
-  --duration-slow: 400ms;
+  /* Motion — snappy out, soft in-out for ambient loops */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+  --duration-fast: 160ms;
+  --duration-base: 280ms;
+  --duration-slow: 480ms;
+  --duration-ambient: 6s;
 
   /* Figma hero horizon band (Desktop Blog 19:993) */
   --glow-orange: radial-gradient(

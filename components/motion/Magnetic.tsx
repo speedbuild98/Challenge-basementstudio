@@ -8,6 +8,7 @@ import {
 } from "react";
 
 import { getGsap, prefersReducedMotion } from "@/lib/gsap";
+import { MOTION } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 type MagneticProps = HTMLAttributes<HTMLDivElement> & {
@@ -15,7 +16,7 @@ type MagneticProps = HTMLAttributes<HTMLDivElement> & {
   strength?: number;
 };
 
-/** Subtle magnetic pull toward the cursor — desktop only. */
+/** Subtle magnetic pull toward the cursor — desktop fine-pointer only. */
 export function Magnetic({
   children,
   className,
@@ -30,8 +31,18 @@ export function Magnetic({
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
     const gsap = getGsap();
-    const xTo = gsap.quickTo(el, "x", { duration: 0.45, ease: "power3.out" });
-    const yTo = gsap.quickTo(el, "y", { duration: 0.45, ease: "power3.out" });
+    const xTo = gsap.quickTo(el, "x", {
+      duration: MOTION.magneticDuration,
+      ease: MOTION.easeSoft,
+    });
+    const yTo = gsap.quickTo(el, "y", {
+      duration: MOTION.magneticDuration,
+      ease: MOTION.easeSoft,
+    });
+    const scaleTo = gsap.quickTo(el, "scale", {
+      duration: 0.35,
+      ease: MOTION.easeSoft,
+    });
 
     const onMove = (event: MouseEvent) => {
       const rect = el.getBoundingClientRect();
@@ -39,11 +50,18 @@ export function Magnetic({
       const relY = event.clientY - (rect.top + rect.height / 2);
       xTo((relX / rect.width) * strength);
       yTo((relY / rect.height) * strength);
+      scaleTo(1.03);
     };
 
     const onLeave = () => {
-      xTo(0);
-      yTo(0);
+      gsap.to(el, {
+        x: 0,
+        y: 0,
+        scale: 1,
+        duration: MOTION.magneticReturn,
+        ease: "elastic.out(1, 0.45)",
+        overwrite: true,
+      });
     };
 
     el.addEventListener("mousemove", onMove);
@@ -55,7 +73,11 @@ export function Magnetic({
   }, [strength]);
 
   return (
-    <div ref={ref} className={cn("will-change-transform", className)} {...rest}>
+    <div
+      ref={ref}
+      className={cn("will-change-transform", className)}
+      {...rest}
+    >
       {children}
     </div>
   );

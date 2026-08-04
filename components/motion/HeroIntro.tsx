@@ -3,6 +3,7 @@
 import { useLayoutEffect, useRef, type ReactNode } from "react";
 
 import { getGsap, prefersReducedMotion } from "@/lib/gsap";
+import { MOTION } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 type HeroIntroProps = {
@@ -11,8 +12,8 @@ type HeroIntroProps = {
 };
 
 /**
- * Above-the-fold entrance. Keeps content readable without forced opacity:0 CSS.
- * Uses a short delayed timeline so first paint can still contribute to LCP.
+ * Above-the-fold entrance. LCP media keeps opacity ≈1 (transform-only);
+ * title uses a soft rise. Respects reduced motion.
  */
 export function HeroIntro({ children, className }: HeroIntroProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -28,32 +29,49 @@ export function HeroIntro({ children, className }: HeroIntroProps) {
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        delay: 0.08,
+        defaults: { ease: MOTION.easeOut },
+        delay: 0.06,
       });
 
       if (title) {
         tl.fromTo(
           title,
-          { y: 48, autoAlpha: 0.001 },
-          { y: 0, autoAlpha: 1, duration: 1.05 },
+          { y: 40, autoAlpha: 0.001 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: MOTION.heroTitleDuration,
+            clearProps: "transform",
+          },
           0,
         );
       }
       if (meta.length) {
         tl.fromTo(
           meta,
-          { y: 16, autoAlpha: 0 },
-          { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.06 },
-          0.15,
+          { y: 12, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.55,
+            stagger: 0.05,
+            clearProps: "transform",
+          },
+          0.12,
         );
       }
       if (media) {
+        // Transform-only so LCP image stays painted (avoids opacity fade on LCP).
         tl.fromTo(
           media,
-          { y: 56, scale: 0.97, autoAlpha: 0 },
-          { y: 0, scale: 1, autoAlpha: 1, duration: 1.1 },
-          0.2,
+          { y: 48, scale: 0.975 },
+          {
+            y: 0,
+            scale: 1,
+            duration: MOTION.heroMediaDuration,
+            clearProps: "transform",
+          },
+          0.18,
         );
       }
     }, root);

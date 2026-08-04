@@ -3,6 +3,7 @@
 import { useLayoutEffect, useRef, type ReactNode } from "react";
 
 import { getGsap, prefersReducedMotion } from "@/lib/gsap";
+import { MOTION } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 type RevealProps = {
@@ -21,7 +22,7 @@ export function Reveal({
   children,
   className,
   delay = 0,
-  y = 36,
+  y = MOTION.revealY,
   once = true,
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -32,20 +33,30 @@ export function Reveal({
 
     const gsap = getGsap();
     const ctx = gsap.context(() => {
+      // immediateRender:false keeps SSR/SEO content visible until the trigger fires
       gsap.fromTo(
         el,
-        { autoAlpha: 0, y },
+        { autoAlpha: 0, y, scale: 0.985 },
         {
           autoAlpha: 1,
           y: 0,
-          duration: 0.9,
+          scale: 1,
+          duration: MOTION.revealDuration,
           delay,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 88%",
-            once,
-          },
+          ease: MOTION.easeOut,
+          immediateRender: false,
+          clearProps: "transform",
+          scrollTrigger: once
+            ? {
+                trigger: el,
+                start: "top 90%",
+                once: true,
+              }
+            : {
+                trigger: el,
+                start: "top 90%",
+                toggleActions: "play none none reverse",
+              },
         },
       );
     }, el);
@@ -54,7 +65,7 @@ export function Reveal({
   }, [delay, once, y]);
 
   return (
-    <div ref={ref} className={cn(className)}>
+    <div ref={ref} className={cn("will-change-[transform,opacity]", className)}>
       {children}
     </div>
   );

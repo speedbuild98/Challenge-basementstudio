@@ -10,7 +10,8 @@ process.env.NEXT_PUBLIC_SITE_URL ??= "http://localhost:3000";
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query: string) => ({
-    matches: false,
+    // Disable GSAP motion in unit tests so scroll reveals don't hide a11y trees.
+    matches: query.includes("prefers-reduced-motion"),
     media: query,
     onchange: null,
     addListener: vi.fn(),

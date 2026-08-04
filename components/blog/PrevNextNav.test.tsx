@@ -15,16 +15,11 @@ describe("PrevNextNav", () => {
       <PrevNextNav previous={mockPosts[0]} next={mockPosts[1]} />,
     );
 
-    expect(screen.getByRole("link", { name: "Previous" })).toHaveAttribute(
-      "href",
-      `/blog/${mockPosts[0].slug}`,
-    );
-    expect(screen.getByRole("link", { name: "Next" })).toHaveAttribute(
-      "href",
-      `/blog/${mockPosts[1].slug}`,
-    );
     expect(
-      screen.getByRole("link", { name: mockPosts[0].title }),
-    ).toBeInTheDocument();
+      screen.getByRole("link", { name: `Previous: ${mockPosts[0].title}` }),
+    ).toHaveAttribute("href", `/blog/${mockPosts[0].slug}`);
+    expect(
+      screen.getByRole("link", { name: `Next: ${mockPosts[1].title}` }),
+    ).toHaveAttribute("href", `/blog/${mockPosts[1].slug}`);
   });
 });

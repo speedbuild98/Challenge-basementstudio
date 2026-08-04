@@ -3,6 +3,7 @@
 import { useLayoutEffect, useRef, type ReactNode } from "react";
 
 import { getGsap, prefersReducedMotion } from "@/lib/gsap";
+import { MOTION } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 type StaggerProps = {
@@ -20,8 +21,8 @@ export function Stagger({
   className,
   selector = "[data-stagger-item]",
   delay = 0,
-  stagger = 0.08,
-  y = 28,
+  stagger = MOTION.stagger,
+  y = 24,
 }: StaggerProps) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -36,17 +37,24 @@ export function Stagger({
     const ctx = gsap.context(() => {
       gsap.fromTo(
         items,
-        { autoAlpha: 0, y },
+        { autoAlpha: 0, y, scale: 0.98 },
         {
           autoAlpha: 1,
           y: 0,
-          duration: 0.75,
+          scale: 1,
+          duration: 0.72,
           delay,
-          stagger,
-          ease: "power3.out",
+          stagger: {
+            each: stagger,
+            from: "start",
+            ease: "power1.out",
+          },
+          ease: MOTION.easeOut,
+          immediateRender: false,
+          clearProps: "transform",
           scrollTrigger: {
             trigger: root,
-            start: "top 85%",
+            start: "top 88%",
             once: true,
           },
         },
