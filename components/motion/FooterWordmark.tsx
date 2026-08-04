@@ -3,12 +3,13 @@
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
 
-import { getGsap, prefersReducedMotion } from "@/lib/gsap";
+import { getGsap, prefersReducedMotion, ScrollTrigger } from "@/lib/gsap";
 
 /**
  * Figma wordmark:
- * Mobile 158:4664 — ~414×58, bleed -3px, gradient #000→#434343 + progressive blur
+ * Mobile 158:4664 — ~414×58, bleed -3px
  * Desktop 19:1096 — ~1378×193
+ * Soft scrub rise as the footer enters — no hard hide/show.
  */
 export function FooterWordmark() {
   const ref = useRef<HTMLDivElement>(null);
@@ -21,22 +22,29 @@ export function FooterWordmark() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         el,
-        { y: 56, autoAlpha: 0.35 },
+        { y: 36, opacity: 0.4 },
         {
           y: 0,
-          autoAlpha: 1,
+          opacity: 1,
           ease: "none",
           scrollTrigger: {
             trigger: el,
-            start: "top 98%",
-            end: "top 55%",
-            scrub: 0.6,
+            start: "top bottom",
+            end: "top 65%",
+            scrub: 0.8,
+            invalidateOnRefresh: true,
           },
         },
       );
     }, el);
 
-    return () => ctx.revert();
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener("load", onLoad, { once: true });
+
+    return () => {
+      window.removeEventListener("load", onLoad);
+      ctx.revert();
+    };
   }, []);
 
   return (

@@ -99,7 +99,8 @@ function FooterColumnView({
       <p className="font-mono text-xs font-medium uppercase leading-[1.4] tracking-[-0.01em] text-orange md:text-sm [font-weight:var(--font-weight-medium)]">
         {column.title}
       </p>
-      <ul className="flex flex-col gap-1 md:gap-2">
+      {/* gap-2 + min-h-6 → LH target-size (≥24×24 + spacing) */}
+      <ul className="flex flex-col gap-2">
         {column.links.map((link) => {
           const external =
             column.external || /^https?:\/\//i.test(link.href);
@@ -107,7 +108,7 @@ function FooterColumnView({
             <li key={`${column.title}-${link.label}`}>
               <Link
                 href={link.href}
-                className="inline-flex font-sans text-xs font-semibold leading-[1.3] tracking-[var(--tracking-body)] text-[#e6e6e6] transition-[color,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] hover:-translate-y-px hover:text-orange [font-weight:var(--font-weight-semibold)] md:text-base"
+                className="inline-flex min-h-6 items-center py-1 font-sans text-xs font-semibold leading-[1.3] tracking-[var(--tracking-body)] text-[#e6e6e6] transition-[color,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] hover:-translate-y-px hover:text-orange [font-weight:var(--font-weight-semibold)] md:text-base"
                 {...(external
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}

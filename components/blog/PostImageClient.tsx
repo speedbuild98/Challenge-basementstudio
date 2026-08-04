@@ -11,6 +11,7 @@ type PostImageClientProps = {
   className?: string;
   sizes?: string;
   priority?: boolean;
+  quality?: number;
   /** When null/failed: render this (default brand mark). Pass `null` for no slot. */
   fallback?: ReactNode;
 };
@@ -42,6 +43,7 @@ export function PostImageClient({
   className,
   sizes = "(max-width: 768px) 100vw, 33vw",
   priority = false,
+  quality = 70,
   fallback,
 }: PostImageClientProps) {
   const [failed, setFailed] = useState(false);
@@ -62,6 +64,7 @@ export function PostImageClient({
       alt={alt}
       fill
       sizes={sizes}
+      quality={quality}
       priority={priority}
       fetchPriority={priority ? "high" : "auto"}
       decoding={priority ? "sync" : "async"}

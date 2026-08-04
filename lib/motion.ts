@@ -1,18 +1,19 @@
-/** Shared motion tuning — Basement-like: snappy ease-out, short travel. */
+/** Shared motion tuning — soft, short travel, no “pop”. */
 
 export const MOTION = {
-  easeOut: "power4.out",
-  easeSoft: "power3.out",
+  easeOut: "power3.out",
+  easeSoft: "power2.out",
   easeInOut: "sine.inOut",
   easeIn: "power2.in",
-  // Entrance
-  revealDuration: 0.85,
-  revealY: 32,
-  stagger: 0.07,
-  // Hero
-  heroTitleDuration: 1.05,
-  heroMediaDuration: 1,
+  // Scroll reveals — subtle rise + fade
+  revealDuration: 0.75,
+  revealY: 20,
+  stagger: 0.08,
+  staggerDuration: 0.7,
+  // Hero (mount only)
+  heroTitleDuration: 0.95,
+  heroMediaDuration: 0.9,
   // Magnetic
-  magneticDuration: 0.55,
-  magneticReturn: 0.7,
+  magneticDuration: 0.5,
+  magneticReturn: 0.65,
 } as const;

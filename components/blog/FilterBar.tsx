@@ -67,7 +67,7 @@ function FilterLink({
         // Figma light filters: active #000 · inactive #666
         active
           ? "text-black"
-          : "text-[#666] hover:text-black hover:-translate-y-px",
+          : "text-[#555] hover:text-black hover:-translate-y-px",
       )}
     >
       {children}

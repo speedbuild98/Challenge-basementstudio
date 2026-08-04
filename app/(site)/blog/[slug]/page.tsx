@@ -112,7 +112,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       <article>
         <Container>
-          <Reveal y={28}>
+          {/* Above-fold: mount intro — never hide-then-show on scroll */}
+          <Reveal mode="mount" y={18}>
             <ArticleHeader post={post} />
           </Reveal>
         </Container>
@@ -120,8 +121,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Figma: cover→body ≈144px · body column left 508 (= +234 into 1372) · stack gap 80 */}
         <Container className="mt-10 md:mt-[9rem]">
           <Reveal
-            y={32}
-            delay={0.05}
+            y={20}
             className="mx-auto max-w-[904px] xl:ml-[234px] xl:mr-auto"
           >
             <div className="flex flex-col gap-20">
@@ -131,9 +131,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </Reveal>
         </Container>
 
-        <Reveal y={36}>
-          <RelatedPosts posts={related} />
-        </Reveal>
+        <RelatedPosts posts={related} />
 
         <script
           type="application/ld+json"

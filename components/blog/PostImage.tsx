@@ -30,6 +30,7 @@ export function PostImage({
       className={className}
       sizes={sizes}
       priority={priority}
+      quality={priority ? 70 : 70}
     />
   );
 }

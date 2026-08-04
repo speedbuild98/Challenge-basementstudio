@@ -12,8 +12,7 @@ type HeroIntroProps = {
 };
 
 /**
- * Above-the-fold entrance. LCP media keeps opacity ≈1 (transform-only);
- * title uses a soft rise. Respects reduced motion.
+ * Above-the-fold entrance only. Soft rise; featured media stays opaque (LCP).
  */
 export function HeroIntro({ children, className }: HeroIntroProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -23,55 +22,54 @@ export function HeroIntro({ children, className }: HeroIntroProps) {
     if (!root || prefersReducedMotion()) return;
 
     const gsap = getGsap();
-    const title = root.querySelector("[data-hero-title]");
-    const media = root.querySelector("[data-hero-media]");
-    const meta = root.querySelectorAll("[data-hero-meta]");
+    const title = root.querySelector<HTMLElement>("[data-hero-title]");
+    const media = root.querySelector<HTMLElement>("[data-hero-media]");
+    const meta = root.querySelectorAll<HTMLElement>("[data-hero-meta]");
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         defaults: { ease: MOTION.easeOut },
-        delay: 0.06,
+        delay: 0.04,
       });
 
       if (title) {
-        tl.fromTo(
+        gsap.set(title, { opacity: 0, y: 28 });
+        tl.to(
           title,
-          { y: 40, autoAlpha: 0.001 },
           {
+            opacity: 1,
             y: 0,
-            autoAlpha: 1,
             duration: MOTION.heroTitleDuration,
-            clearProps: "transform",
+            clearProps: "opacity,transform",
           },
           0,
         );
       }
       if (meta.length) {
-        tl.fromTo(
+        gsap.set(meta, { opacity: 0, y: 10 });
+        tl.to(
           meta,
-          { y: 12, autoAlpha: 0 },
           {
+            opacity: 1,
             y: 0,
-            autoAlpha: 1,
-            duration: 0.55,
-            stagger: 0.05,
-            clearProps: "transform",
+            duration: 0.5,
+            stagger: 0.04,
+            clearProps: "opacity,transform",
           },
-          0.12,
+          0.1,
         );
       }
       if (media) {
-        // Transform-only so LCP image stays painted (avoids opacity fade on LCP).
-        tl.fromTo(
+        // Transform only — keep LCP pixels painted
+        gsap.set(media, { y: 28 });
+        tl.to(
           media,
-          { y: 48, scale: 0.975 },
           {
             y: 0,
-            scale: 1,
             duration: MOTION.heroMediaDuration,
             clearProps: "transform",
           },
-          0.18,
+          0.14,
         );
       }
     }, root);

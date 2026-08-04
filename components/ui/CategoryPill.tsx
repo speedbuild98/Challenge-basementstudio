@@ -11,7 +11,7 @@ type CategoryPillProps = {
 
 /**
  * Figma chips:
- * light → bg #e6e6e6 · text #c4c4c4 · px-2 · 13 semibold
+ * light → bg #e6e6e6 · text muted (AA ≥4.5:1 → #555)
  * dark  → bg #2e2e2e · text #c4c4c4
  */
 export function CategoryPill({
@@ -21,9 +21,10 @@ export function CategoryPill({
   className,
 }: CategoryPillProps) {
   const classes = cn(
-    // min-h-6 (≥24px) satisfies mobile touch target; visual chip stays compact via px
+    // min-h-6 (≥24px) touch target
     "inline-flex min-h-6 w-fit max-w-full shrink-0 items-center justify-center px-1.5 font-sans text-[length:var(--text-caption)] font-semibold leading-none tracking-[var(--tracking-caption)] [font-weight:var(--font-weight-semibold)]",
-    tone === "light" && "bg-[#e6e6e6] text-[#6b6b6b]",
+    // #555 on #e6e6e6 ≈5.4:1 (was #6b6b6b @ 4.26 — failed AA)
+    tone === "light" && "bg-[#e6e6e6] text-[#555555]",
     tone === "dark" && "bg-[#2e2e2e] text-[#c4c4c4]",
     className,
   );

@@ -38,7 +38,8 @@ export function KnowledgeGrid({
 }: KnowledgeGridProps) {
   const unique = uniqueById(posts).map((post) => ({
     ...post,
-    coverSrc: resolvePostCoverSrc(post),
+    // Card media is 436×137 (desktop) / 366×110 (mobile) — avoid 1200w sources
+    coverSrc: resolvePostCoverSrc(post, 872, 274),
   }));
   const heading = formatKnowledgeTitle(title);
 
@@ -48,7 +49,7 @@ export function KnowledgeGrid({
       className="scroll-mt-24 bg-section-light text-section-light-fg"
     >
       <Container className="pb-16 pt-3 md:pb-[4.75rem] md:pt-[3.625rem]">
-        <Reveal y={40}>
+        <Reveal y={22}>
           <Text
             as="h2"
             variant="display"
@@ -59,7 +60,7 @@ export function KnowledgeGrid({
         </Reveal>
 
         {/* Mobile title→filters ~155 · Desktop 192 */}
-        <Reveal delay={0.08} y={20} className="mt-[9.6875rem] md:mt-[12rem]">
+        <Reveal delay={0.06} y={16} className="mt-[9.6875rem] md:mt-[12rem]">
           <FilterBar categories={categories} activeSlug={activeCategory} />
         </Reveal>
 

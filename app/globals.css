@@ -81,6 +81,18 @@
 }
 
 @layer utilities {
+  /*
+   * Scroll reveals — CSS owns the initial hide so content never paints fully
+   * then gets yanked to opacity:0 when GSAP mounts (the “weird” flash).
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    .motion-reveal:not(.motion-shown),
+    [data-stagger-item]:not(.motion-shown) {
+      opacity: 0;
+      transform: translate3d(0, 1.25rem, 0);
+    }
+  }
+
   .skeleton-shimmer::after {
     content: "";
     position: absolute;

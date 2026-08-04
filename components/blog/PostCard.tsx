@@ -64,7 +64,7 @@ export function PostCard({
           <Text
             as="time"
             variant="caption"
-            className="leading-none text-[#666]"
+            className="leading-none text-[#555]"
             dateTime={post.publishedAt}
           >
             {formatPostDate(post.publishedAt)}
@@ -111,7 +111,9 @@ export function PostCard({
           variant={isDark ? "accent" : "secondary"}
           aria-label={`Read more: ${post.title}`}
         >
+          {/* textContent includes title for LH SEO link-text (aria-label alone fails that audit) */}
           Read more
+          <span className="sr-only">{` about ${post.title}`}</span>
         </Button>
       </div>
     </article>

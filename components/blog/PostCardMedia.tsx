@@ -16,7 +16,7 @@ export function PostCardMedia({
   href,
   src,
   alt,
-  sizes = "(max-width: 768px) 100vw, 436px",
+  sizes = "(max-width: 768px) 366px, 436px",
 }: PostCardMediaProps) {
   const [failed, setFailed] = useState(false);
 
@@ -34,6 +34,7 @@ export function PostCardMedia({
         alt={alt}
         fill
         sizes={sizes}
+        quality={70}
         className="object-cover transition-transform duration-[var(--duration-slow)] ease-[var(--ease-out)] group-hover/media:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover/media:scale-100"
         onError={() => setFailed(true)}
       />
