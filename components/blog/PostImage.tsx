@@ -10,15 +10,22 @@ type PostImageProps = {
   className?: string;
   sizes?: string;
   priority?: boolean;
+  width?: number;
+  height?: number;
 };
 
-function resolveSrc(post: PostCard) {
+function resolveSrc(
+  post: PostCard,
+  width: number,
+  height: number,
+) {
   if (post.coverUrl) return post.coverUrl;
   if (post.coverImage?.asset) {
     try {
       return urlForImage(post.coverImage as SanityImageSource)
-        .width(1200)
-        .height(675)
+        .width(width)
+        .height(height)
+        .fit("crop")
         .url();
     } catch {
       return null;
@@ -32,17 +39,14 @@ export function PostImage({
   className,
   sizes = "(max-width: 768px) 100vw, 33vw",
   priority = false,
+  width = 1200,
+  height = 675,
 }: PostImageProps) {
-  const src = resolveSrc(post);
+  const src = resolveSrc(post, width, height);
   const alt = post.coverImage?.alt || post.title;
 
   if (!src) {
-    return (
-      <div
-        className={cn("bg-dark-grey size-full", className)}
-        aria-hidden
-      />
-    );
+    return <div className={cn("bg-dark-grey size-full", className)} aria-hidden />;
   }
 
   return (

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PostImage } from "@/components/blog/PostImage";
 import { CategoryPill } from "@/components/ui/CategoryPill";
 import { Text } from "@/components/ui/Text";
+import { ROUTES } from "@/lib/constants";
 import { formatPostDate } from "@/lib/utils/format-date";
 import type { PostDetail } from "@/types/content";
 
@@ -19,7 +20,7 @@ export function ArticleHeader({ post }: ArticleHeaderProps) {
     <header className="pt-6 md:pt-10">
       <Link
         href="/"
-        className="inline-flex font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:text-orange"
+        className="inline-flex min-h-11 items-center font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:text-orange"
       >
         ← Go back
       </Link>
@@ -53,12 +54,17 @@ export function ArticleHeader({ post }: ArticleHeaderProps) {
 
       <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:pl-[min(50%,503px)]">
         <div className="flex flex-wrap items-center gap-2">
-          <Text as="time" variant="caption" className="text-white">
+          <Text
+            as="time"
+            variant="caption"
+            className="text-white"
+            dateTime={post.publishedAt}
+          >
             {formatPostDate(post.publishedAt)}
           </Text>
           {authors ? (
             <>
-              <span className="size-1 bg-grey" aria-hidden />
+              <span className="size-1 bg-muted-foreground" aria-hidden />
               <Text variant="caption" className="text-white">
                 {authors}
               </Text>
@@ -69,17 +75,25 @@ export function ArticleHeader({ post }: ArticleHeaderProps) {
           <ul className="flex flex-wrap gap-1">
             {post.categories.map((category) => (
               <li key={category._id}>
-                <CategoryPill label={category.title} tone="dark" className="text-white" />
+                <CategoryPill
+                  label={category.title}
+                  href={ROUTES.category(category.slug)}
+                  tone="dark"
+                  className="text-white"
+                />
               </li>
             ))}
           </ul>
         ) : null}
       </div>
 
-      <div className="relative mt-8 aspect-[1372/472] w-full overflow-hidden border border-white/20">
+      {/* Mobile ~4:3 strip; desktop panoramic Figma ratio */}
+      <div className="relative mt-8 aspect-[4/3] w-full overflow-hidden border border-white/20 md:aspect-[1372/472]">
         <PostImage
           post={post}
           priority
+          width={1600}
+          height={900}
           sizes="(max-width: 1200px) 100vw, 1372px"
         />
         <span className="absolute left-0 top-0 size-px bg-white" aria-hidden />

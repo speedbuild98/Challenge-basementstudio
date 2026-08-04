@@ -9,23 +9,38 @@ type KnowledgeGridProps = {
   posts: PostCardType[];
   categories: CategoryRef[];
   activeCategory?: string | null;
+  emptyMessage?: string;
 };
+
+function uniqueById(posts: PostCardType[]) {
+  const seen = new Set<string>();
+  return posts.filter((post) => {
+    if (seen.has(post._id)) return false;
+    seen.add(post._id);
+    return true;
+  });
+}
 
 export function KnowledgeGrid({
   title,
   posts,
   categories,
   activeCategory = null,
+  emptyMessage = "No posts published yet.",
 }: KnowledgeGridProps) {
-  const withMedia = posts.filter((post) => post.coverUrl || post.coverImage);
-  const textOnly = posts.filter((post) => !post.coverUrl && !post.coverImage);
+  const unique = uniqueById(posts);
+  const withMedia = unique.filter((post) => post.coverUrl || post.coverImage);
+  const withoutMedia = unique.filter(
+    (post) => !post.coverUrl && !post.coverImage,
+  );
 
-  // Prefer Figma rhythm: first row media cards, second row text cards when available
-  const mediaRow = (withMedia.length ? withMedia : posts).slice(0, 3);
-  const textRow =
-    textOnly.length > 0
-      ? textOnly.slice(0, 3)
-      : posts.slice(3, 6).map((post) => ({ ...post }));
+  const mediaRow = withMedia.slice(0, 3);
+  const mediaIds = new Set(mediaRow.map((post) => post._id));
+  const textCandidates = [
+    ...withoutMedia,
+    ...unique.filter((post) => !mediaIds.has(post._id)),
+  ];
+  const textRow = uniqueById(textCandidates).slice(0, 3);
 
   return (
     <section className="bg-section-light text-section-light-fg">
@@ -44,23 +59,27 @@ export function KnowledgeGrid({
           className="mt-10 md:mt-14"
         />
 
-        <div className="mt-8 grid gap-8 md:grid-cols-3">
-          {mediaRow.map((post) => (
-            <PostCard key={post._id} post={post} variant="media" />
-          ))}
-        </div>
+        {!unique.length ? (
+          <p className="mt-10 text-[length:var(--text-body)] text-black/70">
+            {emptyMessage}
+          </p>
+        ) : (
+          <>
+            <div className="mt-8 grid gap-8 md:grid-cols-3">
+              {mediaRow.map((post) => (
+                <PostCard key={post._id} post={post} variant="media" />
+              ))}
+            </div>
 
-        {textRow.length ? (
-          <div className="mt-8 grid gap-8 md:grid-cols-3">
-            {textRow.map((post) => (
-              <PostCard
-                key={`text-${post._id}`}
-                post={post}
-                variant="text"
-              />
-            ))}
-          </div>
-        ) : null}
+            {textRow.length ? (
+              <div className="mt-8 grid gap-8 md:grid-cols-3">
+                {textRow.map((post) => (
+                  <PostCard key={`text-${post._id}`} post={post} variant="text" />
+                ))}
+              </div>
+            ) : null}
+          </>
+        )}
       </Container>
     </section>
   );

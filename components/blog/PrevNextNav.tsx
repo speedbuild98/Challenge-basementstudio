@@ -26,13 +26,13 @@ export function PrevNextNav({ previous, next, className }: PrevNextNavProps) {
           <>
             <Link
               href={ROUTES.post(previous.slug)}
-              className="inline-flex rounded-[var(--radius-sm)] bg-grey px-2 py-1 font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:bg-orange hover:text-black"
+              className="inline-flex min-h-11 items-center rounded-[var(--radius-sm)] bg-dark-grey px-3 py-2 font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:bg-orange hover:text-black"
             >
               Previous
             </Link>
             <Link
               href={ROUTES.post(previous.slug)}
-              className="font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:text-orange"
+              className="inline-flex min-h-11 items-center font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:text-orange"
             >
               {previous.title}
             </Link>
@@ -45,13 +45,13 @@ export function PrevNextNav({ previous, next, className }: PrevNextNavProps) {
           <>
             <Link
               href={ROUTES.post(next.slug)}
-              className="order-2 font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:text-orange sm:order-1 sm:text-right"
+              className="order-2 inline-flex min-h-11 items-center font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:text-orange sm:order-1 sm:text-right"
             >
               {next.title}
             </Link>
             <Link
               href={ROUTES.post(next.slug)}
-              className="order-1 inline-flex rounded-[var(--radius-sm)] bg-grey px-2 py-1 font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:bg-orange hover:text-black sm:order-2"
+              className="order-1 inline-flex min-h-11 items-center rounded-[var(--radius-sm)] bg-dark-grey px-3 py-2 font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] text-white transition-colors hover:bg-orange hover:text-black sm:order-2"
             >
               Next
             </Link>

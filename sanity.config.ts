@@ -9,8 +9,8 @@ import { schemaTypes } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
 
 export default defineConfig({
-  name: "editorial",
-  title: "Editorial",
+  name: "basementstudio-challenge",
+  title: "Basement Studio Challenge",
   basePath: "/studio",
   projectId,
   dataset,

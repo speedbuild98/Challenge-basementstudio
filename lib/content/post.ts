@@ -1,8 +1,15 @@
 import { demoPosts } from "@/lib/content/demo";
 import { getDemoArticleBySlug } from "@/lib/content/demo-article";
 import { CACHE_TAGS } from "@/lib/constants";
+import { allowDemoContent } from "@/lib/site";
 import { sanityFetch } from "@/lib/sanity/fetch";
-import { postBySlugQuery, postsQuery, postSlugsQuery } from "@/lib/sanity/queries/posts";
+import {
+  neighboringPostsQuery,
+  postBySlugQuery,
+  postsQuery,
+  postSlugsQuery,
+  relatedPostsQuery,
+} from "@/lib/sanity/queries/posts";
 import type { PostCard, PostDetail } from "@/types/content";
 
 export type ArticlePageData = {
@@ -21,51 +28,81 @@ export async function getPostSlugs(): Promise<string[]> {
       revalidate: 60,
     });
     if (rows?.length) return rows.map((row) => row.slug);
-  } catch {
-    // fall through to demo
+  } catch (error) {
+    console.error("[content/post] slug fetch failed", error);
   }
-  return demoPosts.map((post) => post.slug);
+  if (allowDemoContent()) return demoPosts.map((post) => post.slug);
+  return [];
 }
 
 export async function getArticlePageData(
   slug: string,
 ): Promise<ArticlePageData | null> {
   try {
-    const [post, allPosts] = await Promise.all([
-      sanityFetch<PostDetail | null>({
-        query: postBySlugQuery,
-        params: { slug },
-        tags: [CACHE_TAGS.post(slug), CACHE_TAGS.posts],
-      }),
-      sanityFetch<PostCard[]>({
-        query: postsQuery,
-        tags: [CACHE_TAGS.posts],
-      }),
-    ]);
+    const post = await sanityFetch<PostDetail | null>({
+      query: postBySlugQuery,
+      params: { slug },
+      tags: [CACHE_TAGS.post(slug), CACHE_TAGS.posts],
+    });
 
-    if (post && allPosts?.length) {
-      return buildNeighbors(post, allPosts, false);
+    if (post) {
+      const categoryIds =
+        post.categories?.map((category) => category._id).filter(Boolean) ?? [];
+
+      const [neighbors, related] = await Promise.all([
+        sanityFetch<{ newer: PostCard | null; older: PostCard | null }>({
+          query: neighboringPostsQuery,
+          params: { publishedAt: post.publishedAt },
+          tags: [CACHE_TAGS.posts],
+        }),
+        categoryIds.length
+          ? sanityFetch<PostCard[]>({
+              query: relatedPostsQuery,
+              params: { slug: post.slug, categoryIds },
+              tags: [CACHE_TAGS.posts],
+            })
+          : Promise.resolve([] as PostCard[]),
+      ]);
+
+      let relatedPosts = related ?? [];
+      if (!relatedPosts.length) {
+        const recent = await sanityFetch<PostCard[]>({
+          query: postsQuery,
+          tags: [CACHE_TAGS.posts],
+        });
+        relatedPosts = (recent ?? [])
+          .filter((item) => item.slug !== post.slug)
+          .slice(0, 3);
+      }
+
+      return {
+        post,
+        previous: neighbors?.older ?? null,
+        next: neighbors?.newer ?? null,
+        related: relatedPosts.slice(0, 3),
+        usingDemoContent: false,
+      };
     }
-  } catch {
-    // demo fallback
+  } catch (error) {
+    console.error("[content/post] article fetch failed", error);
+    if (!allowDemoContent()) throw error;
   }
+
+  if (!allowDemoContent()) return null;
 
   const demoPost = getDemoArticleBySlug(slug);
   if (!demoPost) return null;
-  return buildNeighbors(demoPost, demoPosts, true);
+  return buildDemoNeighbors(demoPost);
 }
 
-function buildNeighbors(
-  post: PostDetail,
-  allPosts: PostCard[],
-  usingDemoContent: boolean,
-): ArticlePageData {
-  const ordered = [...allPosts].sort(
+function buildDemoNeighbors(post: PostDetail): ArticlePageData {
+  const ordered = [...demoPosts].sort(
     (a, b) =>
       new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
   );
   const index = ordered.findIndex((item) => item.slug === post.slug);
-  const previous = index >= 0 && index < ordered.length - 1 ? ordered[index + 1] : null;
+  const previous =
+    index >= 0 && index < ordered.length - 1 ? ordered[index + 1] : null;
   const next = index > 0 ? ordered[index - 1] : null;
 
   const categoryIds = new Set(post.categories?.map((category) => category._id));
@@ -76,16 +113,14 @@ function buildNeighbors(
     )
     .slice(0, 3);
 
-  const relatedFallback =
-    related.length > 0
-      ? related
-      : ordered.filter((item) => item.slug !== post.slug).slice(0, 3);
-
   return {
     post,
     previous,
     next,
-    related: relatedFallback,
-    usingDemoContent,
+    related:
+      related.length > 0
+        ? related
+        : ordered.filter((item) => item.slug !== post.slug).slice(0, 3),
+    usingDemoContent: true,
   };
 }

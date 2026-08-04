@@ -1,112 +1,108 @@
 # Editorial — Basement Studio Frontend Dev Challenge 2026
 
-Production-quality editorial blog built for the [Basement Studio Frontend Dev Challenge](https://basementstudio.notion.site/Frontend-Dev-Challenge-da2967c579374fb4969e475dc15fb552).
+Production-quality editorial journal for the [Basement Studio Frontend Dev Challenge](https://basementstudio.notion.site/Frontend-Dev-Challenge-da2967c579374fb4969e475dc15fb552).
 
 ## Challenge references
 
 | Resource | Link |
 |---|---|
 | Brief (Notion) | [Frontend Dev Challenge](https://basementstudio.notion.site/Frontend-Dev-Challenge-da2967c579374fb4969e475dc15fb552) |
-| Design (Figma) | [Dev Challenge 2026](https://www.figma.com/design/08IEpisAbbDCHJhd1VIajs/Dev-Challenge-2026?node-id=0-1&p=f&t=W6ryT238yZcsMxY5-0) |
+| Design (Figma) | [Dev Challenge 2026](https://www.figma.com/design/08IEpisAbbDCHJhd1VIajs/Dev-Challenge-2026) |
 | Repository | [speedbuild98/Challenge-basementstudio](https://github.com/speedbuild98/Challenge-basementstudio) |
 | Deployment | [challenge-basementstudio.vercel.app](https://challenge-basementstudio.vercel.app) |
 | CMS (Sanity Studio) | [/studio](https://challenge-basementstudio.vercel.app/studio) |
 
 ## Status
 
-- Architecture and Next.js/Sanity scaffold are in place
-- Site is deployed to Vercel
-- Sanity project connected: `basementstudio-challenge` (`1yrc1zg3`, dataset `production`)
-- Studio is **embedded** at `/studio` (not a separate `studio/` + `web/` monorepo)
-- Next: extract Figma tokens, seed content, implement homepage + article fidelity
+- Homepage + article detail aligned to desktop Figma
+- Category/tag archives with real GROQ filtering
+- Sanity project: `basementstudio-challenge` (`1yrc1zg3` / `production`)
+- Embedded Studio at `/studio`
+- Demo fallback **disabled in production** unless `ALLOW_DEMO_CONTENT=true`
+- Seed importer from basement.studio public dataset: `npm run seed:basement`
 
 ## Stack
 
-- Next.js 16 (App Router, Server Components by default)
+- Next.js 16 App Router (RSC default)
 - TypeScript
 - Tailwind CSS v4 + CSS design tokens
-- Motion (client islands only)
-- Sanity CMS + embedded Studio at `/studio`
-- Vercel
+- Motion (non-LCP islands only)
+- Sanity CMS + embedded Studio
+- Vercel (ISR + tag revalidation webhook)
 
 ## Local setup (~5 min)
 
-1. Copy env file:
-
-```bash
-cp .env.example .env.local
-```
-
-2. Create a Sanity project at [sanity.io/manage](https://www.sanity.io/manage) and set:
-
-- `NEXT_PUBLIC_SANITY_PROJECT_ID`
-- `NEXT_PUBLIC_SANITY_DATASET` (usually `production`)
-
-3. Install and run:
-
-```bash
-npm install
-npm run dev
-```
-
-4. Open:
-
-- Site: [http://localhost:3000](http://localhost:3000)
-- Studio: [http://localhost:3000/studio](http://localhost:3000/studio)
-
+1. `cp .env.example .env.local`
+2. Set Sanity public vars + optional write token for seeding
+3. `npm install && npm run dev`
+4. Open `/` and `/studio`
 5. Add CORS origins in Sanity (Credentials allowed):
-
-- `http://localhost:3000`
-- `https://challenge-basementstudio.vercel.app`
+   - `http://localhost:3000`
+   - `https://challenge-basementstudio.vercel.app`
 
 ## Scripts
 
 | Script | Purpose |
 |---|---|
-| `npm run dev` | Next.js dev server |
+| `npm run dev` | Dev server |
 | `npm run build` | Production build |
 | `npm run lint` | ESLint |
-| `npm run typegen` | Extract schema + Sanity TypeGen |
+| `npm run typegen` | Sanity schema extract + TypeGen |
+| `npm run seed:basement` | Import public Basement posts into our dataset |
+
+## Implemented routes
+
+- `/` — journal homepage (hero, featured, knowledge grid, filters)
+- `/blog/[slug]` — article detail, Portable Text, prev/next, related, JSON-LD
+- `/category/[slug]` — category archive
+- `/tag/[slug]` — tag archive
+- `/studio` — embedded Sanity Studio
+- `/api/revalidate` — tagged on-demand revalidation (secret + allowlist)
+- `/sitemap.xml`, `/robots.txt`
 
 ## Architecture
 
-### Boundaries
+- `components/ui` — primitives (no Sanity imports)
+- `components/sections` — page sections
+- `lib/content` — view-model loaders + fallback policy
+- `lib/sanity` — client, GROQ, image helper
+- `sanity/schemaTypes` — CMS model
 
-- `components/ui` — design-system primitives (no Sanity imports)
-- `components/sections` — page sections fed by view models
-- `lib/sanity` — client, image helper, GROQ, fetch
-- `sanity/schemaTypes` — CMS model only
+### Caching
 
-### Rendering
+- Sanity fetches use Next cache tags (`posts`, `post:slug`, `categories`, …)
+- Webhook `POST /api/revalidate` with `x-revalidate-secret`
+- Server client uses `useCdn: false` for post-webhook freshness
 
-- Server Components by default
-- `"use client"` only for Studio, Motion, and interactive chrome
+### Demo fallback policy
 
-## Submission checklist (from brief)
+| Environment | Behavior |
+|---|---|
+| `development` | Demo content if CMS empty/fails |
+| `production` | No silent demo; empty/error states unless `ALLOW_DEMO_CONTENT=true` |
 
-When the challenge is ready, reply with links to:
+## Technical decisions
+
+- Embedded Studio for single Vercel deploy
+- Motion over GSAP; hero LCP kept static (no opacity-0 entrance)
+- Design tokens via CSS variables → Tailwind `@theme`
+- URL-driven category filters (`/category/[slug]`)
+- Safe JSON-LD serialization for CMS-controlled strings
+
+## Known limitations
+
+- Preview/draft mode not implemented
+- No automated test suite yet
+- Mobile fidelity continues to be refined against Figma frames `155:4213` / `158:4873`
+- Rotate any Sanity write token that was shared outside a secrets manager
+
+## Submission checklist
 
 1. GitHub repo
 2. Vercel deployment
-3. Sanity CMS
+3. Sanity CMS access
 
 Invite:
 
 - GitHub: `valebearzotti`
 - Sanity: `valentina@basement.studio`
-
-## Implemented features / decisions
-
-_To be filled as implementation progresses._
-
-### Technical decisions
-
-- Embedded Sanity Studio for a single Vercel deploy
-- Motion over GSAP unless the design requires complex timeline scrubbing
-- Design tokens via CSS variables mapped into Tailwind `@theme`
-- URL-driven filters preferred over client-only filter state
-
-### Trade-offs / caveats
-
-- Sanity project ID is still a placeholder until the CMS project is created
-- Visual tokens are provisional until Figma extraction

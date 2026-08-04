@@ -4,6 +4,13 @@ export type CategoryRef = {
   _id: string;
   title: string;
   slug: string;
+  description?: string | null;
+};
+
+export type TagRef = {
+  _id: string;
+  title: string;
+  slug: string;
 };
 
 export type AuthorRef = {
@@ -19,6 +26,7 @@ export type PostCard = {
   slug: string;
   excerpt?: string | null;
   publishedAt: string;
+  _updatedAt?: string | null;
   isFeatured?: boolean | null;
   coverImage?: {
     alt?: string | null;
@@ -28,6 +36,7 @@ export type PostCard = {
   /** Local/demo image path when Sanity asset is absent */
   coverUrl?: string | null;
   categories?: CategoryRef[] | null;
+  tags?: TagRef[] | null;
   authors?: AuthorRef[] | null;
 };
 
@@ -37,6 +46,10 @@ export type PostDetail = PostCard & {
   seo?: {
     title?: string | null;
     description?: string | null;
+    ogImage?: {
+      alt?: string | null;
+      asset?: unknown;
+    } | null;
   } | null;
 };
 
@@ -52,6 +65,10 @@ export type SiteSettings = {
   footer?: {
     text?: string | null;
     links?: NavItem[] | null;
+  } | null;
+  seo?: {
+    title?: string | null;
+    description?: string | null;
   } | null;
 };
 

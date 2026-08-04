@@ -1,4 +1,4 @@
-import type { ElementType, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 
 import { cn } from "@/lib/utils/cn";
 
@@ -16,18 +16,24 @@ const variants = {
     "font-semibold [font-size:var(--text-caption)] [line-height:var(--leading-caption)]",
 } as const;
 
-type TextProps = {
-  as?: ElementType;
+type TextProps<T extends ElementType = "p"> = {
+  as?: T;
   variant?: keyof typeof variants;
   children: ReactNode;
   className?: string;
-};
+} & Omit<ComponentPropsWithoutRef<T>, "as" | "children" | "className">;
 
-export function Text({
-  as: Tag = "p",
+export function Text<T extends ElementType = "p">({
+  as,
   variant = "body",
   children,
   className,
-}: TextProps) {
-  return <Tag className={cn(variants[variant], className)}>{children}</Tag>;
+  ...rest
+}: TextProps<T>) {
+  const Tag = as || "p";
+  return (
+    <Tag className={cn(variants[variant], className)} {...rest}>
+      {children}
+    </Tag>
+  );
 }

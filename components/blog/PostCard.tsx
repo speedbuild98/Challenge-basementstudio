@@ -42,7 +42,12 @@ export function PostCard({
         ) : null}
 
         <div className="flex flex-col gap-4">
-          <Text as="time" variant="caption" className="text-grey">
+          <Text
+            as="time"
+            variant="caption"
+            className="text-black/70"
+            dateTime={post.publishedAt}
+          >
             {formatPostDate(post.publishedAt)}
           </Text>
           <Text as="h3" variant="h2" className="text-black">
@@ -57,7 +62,11 @@ export function PostCard({
             <ul className="flex flex-wrap gap-1">
               {post.categories.map((category) => (
                 <li key={category._id}>
-                  <CategoryPill label={category.title} tone="light" />
+                  <CategoryPill
+                    label={category.title}
+                    href={ROUTES.category(category.slug)}
+                    tone="light"
+                  />
                 </li>
               ))}
             </ul>

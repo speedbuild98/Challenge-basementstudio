@@ -1,12 +1,12 @@
 import type { CategoryRef, HomePageContent, NavItem, PostCard } from "@/types/content";
 
 export const demoNav: NavItem[] = [
-  { label: "Showcase", href: "#" },
-  { label: "Services", href: "#" },
-  { label: "People", href: "#" },
-  { label: "Laboratory", href: "#" },
+  { label: "Showcase", href: "https://basement.studio/showcase" },
+  { label: "Services", href: "https://basement.studio/services" },
+  { label: "People", href: "https://basement.studio/people" },
+  { label: "Laboratory", href: "https://basement.studio/lab" },
   { label: "Blog", href: "/" },
-  { label: "Ventures", href: "#" },
+  { label: "Ventures", href: "https://basement.studio/ventures" },
 ];
 
 export const demoCategories: CategoryRef[] = [
@@ -26,7 +26,7 @@ export const demoPosts: PostCard[] = [
     title: "Creating Daylight - The Devex",
     slug: "creating-daylight-the-devex",
     excerpt:
-      "We’re thrilled to unveil our latest advancement in gene therapy, poised to transform the landscape of treatment for rare genetic conditions.",
+      "A look at the tooling and workflows that make daylight-quality product craft possible.",
     publishedAt: "2025-01-03",
     isFeatured: true,
     coverUrl: "/demo/featured-daylight.jpg",

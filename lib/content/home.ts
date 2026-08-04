@@ -1,5 +1,6 @@
 import { demoCategories, demoHome, demoNav, demoPosts } from "@/lib/content/demo";
 import { CACHE_TAGS } from "@/lib/constants";
+import { allowDemoContent } from "@/lib/site";
 import { sanityFetch } from "@/lib/sanity/fetch";
 import { categoriesQuery } from "@/lib/sanity/queries/categories";
 import { postsQuery } from "@/lib/sanity/queries/posts";
@@ -18,8 +19,21 @@ export type HomePageData = {
   posts: PostCard[];
   categories: CategoryRef[];
   navigation: NavItem[];
+  featured: PostCard | null;
   usingDemoContent: boolean;
 };
+
+function demoHomeData(): HomePageData {
+  return {
+    settings: null,
+    home: demoHome,
+    posts: demoPosts,
+    categories: demoCategories,
+    navigation: demoNav,
+    featured: demoPosts.find((post) => post.isFeatured) || demoPosts[0] || null,
+    usingDemoContent: true,
+  };
+}
 
 export async function getHomePageData(): Promise<HomePageData> {
   try {
@@ -44,6 +58,35 @@ export async function getHomePageData(): Promise<HomePageData> {
 
     const hasCmsPosts = Boolean(posts?.length);
 
+    if (!hasCmsPosts) {
+      if (!allowDemoContent()) {
+        return {
+          settings,
+          home: {
+            ...demoHome,
+            ...home,
+            title: home?.title || demoHome.title,
+            knowledgeTitle: home?.knowledgeTitle || demoHome.knowledgeTitle,
+          },
+          posts: [],
+          categories: categories ?? [],
+          navigation: settings?.navigation?.length
+            ? settings.navigation
+            : demoNav,
+          featured: null,
+          usingDemoContent: false,
+        };
+      }
+      return demoHomeData();
+    }
+
+    const featuredFromCms = home?.featuredPosts?.find(Boolean) || null;
+    const featured =
+      featuredFromCms ||
+      posts.find((post) => post.isFeatured) ||
+      posts[0] ||
+      null;
+
     return {
       settings,
       home: {
@@ -51,22 +94,19 @@ export async function getHomePageData(): Promise<HomePageData> {
         ...home,
         title: home?.title || demoHome.title,
         knowledgeTitle: home?.knowledgeTitle || demoHome.knowledgeTitle,
+        featuredPosts: home?.featuredPosts ?? null,
       },
-      posts: hasCmsPosts ? posts : demoPosts,
-      categories: categories?.length ? categories : demoCategories,
+      posts,
+      categories: categories?.length ? categories : [],
       navigation: settings?.navigation?.length
         ? settings.navigation
         : demoNav,
-      usingDemoContent: !hasCmsPosts,
+      featured,
+      usingDemoContent: false,
     };
-  } catch {
-    return {
-      settings: null,
-      home: demoHome,
-      posts: demoPosts,
-      categories: demoCategories,
-      navigation: demoNav,
-      usingDemoContent: true,
-    };
+  } catch (error) {
+    console.error("[content/home] Sanity fetch failed", error);
+    if (allowDemoContent()) return demoHomeData();
+    throw error;
   }
 }

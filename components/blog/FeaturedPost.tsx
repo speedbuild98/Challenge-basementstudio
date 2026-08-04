@@ -40,7 +40,12 @@ export function FeaturedPost({ post, className }: FeaturedPostProps) {
 
         <div className="flex max-w-[325px] flex-col justify-center gap-6 py-4 pr-2 md:min-h-[360px]">
           <div className="flex flex-col gap-4">
-            <Text as="time" variant="caption" className="text-light-grey">
+            <Text
+              as="time"
+              variant="caption"
+              className="text-muted-foreground"
+              dateTime={post.publishedAt}
+            >
               {formatPostDate(post.publishedAt)}
             </Text>
             <Text as="h2" variant="h1" className="text-white whitespace-pre-line">
@@ -57,13 +62,17 @@ export function FeaturedPost({ post, className }: FeaturedPostProps) {
               <ul className="flex flex-wrap gap-1">
                 {post.categories.map((category) => (
                   <li key={category._id}>
-                    <CategoryPill label={category.title} tone="dark" />
+                    <CategoryPill
+                      label={category.title}
+                      href={ROUTES.category(category.slug)}
+                      tone="dark"
+                    />
                   </li>
                 ))}
               </ul>
             ) : null}
             {post.excerpt ? (
-              <Text variant="body" className="text-light-grey">
+              <Text variant="body" className="text-muted-foreground">
                 {post.excerpt}
               </Text>
             ) : null}

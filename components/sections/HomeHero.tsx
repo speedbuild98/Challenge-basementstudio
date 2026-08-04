@@ -1,34 +1,38 @@
 import { FeaturedPost } from "@/components/blog/FeaturedPost";
 import { Container } from "@/components/layout/Container";
 import { OrangeGlow } from "@/components/layout/OrangeGlow";
-import { Reveal } from "@/components/motion/Reveal";
 import { Text } from "@/components/ui/Text";
 import type { PostCard } from "@/types/content";
 
 type HomeHeroProps = {
   title: string;
+  eyebrow?: string | null;
   featured?: PostCard | null;
 };
 
-export function HomeHero({ title, featured }: HomeHeroProps) {
+export function HomeHero({ title, eyebrow, featured }: HomeHeroProps) {
   return (
     <section className="relative overflow-hidden pb-16 pt-10 md:pb-24 md:pt-16">
       <OrangeGlow />
       <Container className="relative z-10">
-        <Reveal>
-          <Text
-            as="h1"
-            variant="display"
-            className="max-w-[16ch] text-balance text-white"
-          >
-            {title}
+        {eyebrow ? (
+          <Text variant="meta" className="mb-4 text-orange">
+            {eyebrow}
           </Text>
-        </Reveal>
+        ) : null}
+        {/* LCP: keep H1 + featured statically visible (no Motion opacity:0). */}
+        <Text
+          as="h1"
+          variant="display"
+          className="max-w-[16ch] text-balance text-white"
+        >
+          {title}
+        </Text>
 
         {featured ? (
-          <Reveal delay={0.08} className="mx-auto mt-16 max-w-[902px] md:mt-20">
+          <div className="mx-auto mt-16 max-w-[902px] md:mt-20">
             <FeaturedPost post={featured} />
-          </Reveal>
+          </div>
         ) : null}
       </Container>
     </section>

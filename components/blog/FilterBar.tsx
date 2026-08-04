@@ -51,7 +51,7 @@ function FilterLink({
       href={href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] transition-colors duration-[var(--duration-fast)]",
+        "inline-flex min-h-11 items-center font-mono text-[length:var(--text-meta)] font-medium uppercase tracking-[var(--tracking-meta)] transition-colors duration-[var(--duration-fast)]",
         active ? "text-orange" : "text-black hover:text-orange",
       )}
     >

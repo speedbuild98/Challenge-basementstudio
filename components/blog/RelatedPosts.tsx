@@ -47,7 +47,12 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
                       />
                     </Link>
                     <div className="flex flex-col gap-4">
-                      <Text as="time" variant="caption" className="text-grey">
+                      <Text
+                        as="time"
+                        variant="caption"
+                        className="text-muted-foreground"
+                        dateTime={post.publishedAt}
+                      >
                         {formatPostDate(post.publishedAt)}
                       </Text>
                       <Text as="h3" variant="h2" className="text-white">
@@ -61,6 +66,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
                       {post.categories?.[0] ? (
                         <CategoryPill
                           label={post.categories[0].title}
+                          href={ROUTES.category(post.categories[0].slug)}
                           tone="dark"
                         />
                       ) : null}

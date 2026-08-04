@@ -53,14 +53,20 @@ export function SiteHeader({
                     <Link
                       href={item.href}
                       className={cn(
-                        "inline-flex px-4 py-2 text-[length:var(--text-body)] font-semibold leading-[var(--leading-body)] transition-colors duration-[var(--duration-fast)]",
+                        "inline-flex min-h-11 items-center px-4 py-2 text-[length:var(--text-body)] font-semibold leading-[var(--leading-body)] transition-colors duration-[var(--duration-fast)]",
                         active
                           ? "text-orange"
                           : "text-white hover:text-orange",
                       )}
                       aria-current={active ? "page" : undefined}
+                      {...(item.href.startsWith("http")
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
                     >
                       {item.label}
+                      {item.href.startsWith("http") ? (
+                        <span className="sr-only"> (opens in a new tab)</span>
+                      ) : null}
                     </Link>
                   </li>
                 );
@@ -72,7 +78,7 @@ export function SiteHeader({
             <Button
               href="#contact"
               variant="contact"
-              className="hidden h-9 rounded-lg px-8 sm:inline-flex"
+              className="hidden min-h-11 rounded-lg px-8 sm:inline-flex"
             >
               Contact us
             </Button>

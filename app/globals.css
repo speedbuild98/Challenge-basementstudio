@@ -37,9 +37,14 @@
 
 @layer base {
   html {
+    color-scheme: dark;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+  }
+
+  html.color-scheme-dark {
+    color-scheme: dark;
   }
 
   body {
