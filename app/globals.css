@@ -78,6 +78,26 @@
       transition-duration: 0.01ms !important;
     }
   }
+
+  /* Basement-style custom cursor — desktop fine pointer only */
+  @media (hover: hover) and (pointer: fine) {
+    html.has-custom-cursor,
+    html.has-custom-cursor body {
+      cursor: none;
+    }
+
+    html.has-custom-cursor a,
+    html.has-custom-cursor button,
+    html.has-custom-cursor [role="button"],
+    html.has-custom-cursor input,
+    html.has-custom-cursor textarea,
+    html.has-custom-cursor select,
+    html.has-custom-cursor label,
+    html.has-custom-cursor summary,
+    html.has-custom-cursor [data-cursor="hover"] {
+      cursor: none;
+    }
+  }
 }
 
 @layer utilities {

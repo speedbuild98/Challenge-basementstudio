@@ -21,23 +21,25 @@ const menuButtonClass =
 export function MobileNav({ items, activeHref = "/" }: MobileNavProps) {
   const [open, setOpen] = useState(false);
   const [rendered, setRendered] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const panelId = useId();
   const openerRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const openRef = useRef(open);
-  openRef.current = open;
+  const openRef = useRef(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const closeMenu = () => {
+    openRef.current = false;
+    setOpen(false);
+  };
 
-  useEffect(() => {
-    if (open) setRendered(true);
-  }, [open]);
+  const toggleMenu = () => {
+    const next = !open;
+    openRef.current = next;
+    if (next) setRendered(true);
+    setOpen(next);
+  };
 
   useLayoutEffect(() => {
     if (!rendered || !panelRef.current || !contentRef.current) return;
@@ -88,8 +90,8 @@ export function MobileNav({ items, activeHref = "/" }: MobileNavProps) {
 
     // Closing
     if (reduced) {
-      setRendered(false);
-      return;
+      const frame = requestAnimationFrame(() => setRendered(false));
+      return () => cancelAnimationFrame(frame);
     }
 
     const tl = gsap.timeline({
@@ -118,7 +120,7 @@ export function MobileNav({ items, activeHref = "/" }: MobileNavProps) {
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setOpen(false);
+        closeMenu();
         return;
       }
 
@@ -162,7 +164,7 @@ export function MobileNav({ items, activeHref = "/" }: MobileNavProps) {
   }, [open]);
 
   const panel =
-    rendered && mounted
+    rendered
       ? createPortal(
           <div
             ref={panelRef}
@@ -188,7 +190,7 @@ export function MobileNav({ items, activeHref = "/" }: MobileNavProps) {
                   href="/"
                   className="relative block h-[38px] w-[102px] shrink-0"
                   aria-label="basement. home"
-                  onClick={() => setOpen(false)}
+                  onClick={closeMenu}
                 >
                   <Image
                     src="/brand/basement-logo.svg"
@@ -204,7 +206,7 @@ export function MobileNav({ items, activeHref = "/" }: MobileNavProps) {
                     menuButtonClass,
                     "bg-[#2e2e2e] text-[#e6e6e6] hover:bg-[#3a3a3a]",
                   )}
-                  onClick={() => setOpen(false)}
+                  onClick={closeMenu}
                 >
                   Close
                 </button>
@@ -228,7 +230,7 @@ export function MobileNav({ items, activeHref = "/" }: MobileNavProps) {
                               ? "text-orange"
                               : "text-[#e6e6e6] hover:text-orange",
                           )}
-                          onClick={() => setOpen(false)}
+                          onClick={closeMenu}
                           {...(item.href.startsWith("http")
                             ? {
                                 target: "_blank",
@@ -257,7 +259,7 @@ export function MobileNav({ items, activeHref = "/" }: MobileNavProps) {
                       menuButtonClass,
                       "bg-orange text-black hover:brightness-110",
                     )}
-                    onClick={() => setOpen(false)}
+                    onClick={closeMenu}
                   >
                     Contact Us
                   </Link>
@@ -278,7 +280,7 @@ export function MobileNav({ items, activeHref = "/" }: MobileNavProps) {
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={open ? "Close menu" : "Open menu"}
-        onClick={() => setOpen((value) => !value)}
+        onClick={toggleMenu}
       >
         {/* Figma 155:4349 — 40×~10 hamburger */}
         <span className="relative flex h-[10px] w-10 flex-col justify-between" aria-hidden>

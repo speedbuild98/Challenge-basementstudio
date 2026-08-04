@@ -33,7 +33,12 @@ export function KnowledgeGridList({ posts }: KnowledgeGridListProps) {
   return (
     // Mobile 158:5096 — filters→grid ~11 · card gap 12 · Desktop gap 32 / filters→grid 55
     <div className="mt-3 md:mt-[3.45rem]">
-      <Stagger className="space-y-3 md:space-y-8" y={28} stagger={0.06}>
+      <Stagger
+        className="space-y-3 md:space-y-8"
+        y={28}
+        stagger={0.06}
+        watch={visible.length}
+      >
         {mediaRow.length ? (
           <ul className="grid list-none gap-3 md:grid-cols-3 md:gap-8">
             {mediaRow.map((post) => (

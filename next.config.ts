@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const isDevelopment = process.env.NODE_ENV === "development";
+
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
@@ -12,14 +14,16 @@ const securityHeaders = [
 /** Site CSP — Studio needs a looser policy (separate source below). */
 const siteCsp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com",
+  `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""} https://va.vercel-scripts.com`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://cdn.sanity.io",
   "font-src 'self' data:",
   "connect-src 'self' https://*.api.sanity.io https://*.sanity.io https://cdn.sanity.io https://vitals.vercel-insights.com",
+  "object-src 'none'",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
+  "upgrade-insecure-requests",
 ].join("; ");
 
 const studioCsp = [
